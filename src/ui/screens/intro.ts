@@ -1,4 +1,5 @@
 import type { Session } from '../../state/session';
+import { trackEvent } from '../../analytics/events';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
 
@@ -43,6 +44,7 @@ export function renderIntro(root: HTMLElement, session: Session, actions: IntroA
   document.title = '灵魂使用说明书';
   root.querySelector<HTMLButtonElement>('#intro-primary')?.addEventListener('click', () => {
     if (invalidDraft) {
+      trackEvent('test_start');
       announce('旧草稿已清除，重新开始');
       actions.start(true);
       return;
@@ -52,6 +54,9 @@ export function renderIntro(root: HTMLElement, session: Session, actions: IntroA
       return;
     }
     session.start(false);
+    if (!hasProgress) {
+      trackEvent('test_start');
+    }
     announce(hasProgress ? '继续上次测试' : '测试开始');
     actions.start(false);
   });

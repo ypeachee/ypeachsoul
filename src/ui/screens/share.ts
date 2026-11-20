@@ -1,4 +1,5 @@
 import { getAttribution } from '../../analytics/attribution';
+import { trackEvent } from '../../analytics/events';
 import { getArchetype } from '../../domain/scoring';
 import type { Session } from '../../state/session';
 import { renderShareCard } from '../../share/card';
@@ -101,6 +102,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
       status.textContent = outcome === 'copied' ? '结果文案已复制' : '当前浏览器不支持自动复制，请手动选择文字';
     }
     if (outcome === 'copied') {
+      trackEvent('share_text_copy', { archetypeId: archetype.id });
       announce('结果文案已复制');
     }
     if (copyTarget) {
@@ -124,6 +126,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
       if (status) {
         status.textContent = '分享卡已准备好';
       }
+      trackEvent('share_card_open', { archetypeId: archetype.id });
       announce('分享卡已准备好');
     } catch {
       cardReady = false;
@@ -141,6 +144,9 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     busy = true;
     downloadButton.disabled = true;
     const outcome = await downloadCanvas(canvas, `灵魂使用说明书-${archetype.name}.png`);
+    if (outcome === 'downloaded') {
+      trackEvent('share_card_download', { archetypeId: archetype.id });
+    }
     if (status) {
       status.textContent = outcome === 'downloaded' ? '分享卡已开始下载' : '当前浏览器不支持自动下载，请长按图片保存';
     }

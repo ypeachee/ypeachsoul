@@ -40,7 +40,7 @@ npm run build
 - Playwright：完整答题、刷新恢复、分享下载、错误恢复、键盘操作、移动端、离线
 - Axe：首页与结果页 critical/serious 可访问性问题检查
 
-当前自动化结果：15 个单元测试、19 个端到端测试全部通过。
+当前自动化结果：17 个单元测试、20 个端到端测试全部通过。
 
 ## 截图
 
@@ -143,3 +143,24 @@ ref
 - 原始渠道通过 `ref` 继续传递
 
 完整投放链接见 `marketing/utm-links.md`。
+## 轻量统计
+
+统计使用 GoatCounter，默认关闭。注册后设置：
+
+```bash
+VITE_GOATCOUNTER_URL=https://YOURCODE.goatcounter.com/count
+```
+
+记录事件：
+
+```text
+test_start
+test_complete
+result_view
+share_card_open
+share_card_download
+share_text_copy
+retest_click
+```
+
+事件只附带 UTM 归因和原型 ID，不上传题目答案、姓名或其他个人信息。未配置 `VITE_GOATCOUNTER_URL` 时不会加载统计脚本，也不会发送请求。
