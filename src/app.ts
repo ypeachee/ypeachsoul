@@ -1,3 +1,4 @@
+import { captureAttribution } from './analytics/attribution';
 import { createSession } from './state/session';
 import { createBrowserStorage } from './state/storage';
 import { ensureLiveRegion } from './ui/a11y';
@@ -9,6 +10,11 @@ import { renderShare } from './ui/screens/share';
 
 export function mountApp(root: HTMLElement): void {
   ensureLiveRegion(root);
+  try {
+    captureAttribution(window.location.search, window.localStorage);
+  } catch {
+    captureAttribution(window.location.search);
+  }
   const session = createSession(createBrowserStorage());
   if (!window.location.hash) {
     history.replaceState(null, '', '#intro');

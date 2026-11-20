@@ -5,7 +5,7 @@ import { PNG } from 'pngjs';
 
 test('share preview produces a 1080x1440 card with a scannable attribution QR', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await page.goto('/');
+  await page.goto('/?utm_source=xiaohongshu&utm_medium=social&utm_campaign=launch_202611&utm_content=archetype_01');
   await page.getByRole('button', { name: '开始测试' }).click();
   for (let i = 1; i <= 10; i += 1) {
     await page.getByRole('radio').first().check();
@@ -21,6 +21,8 @@ test('share preview produces a 1080x1440 card with a scannable attribution QR', 
   await expect(page.locator('#share-status')).toHaveText('结果文案已复制');
   const copied = await page.evaluate(() => navigator.clipboard.readText());
   expect(copied).toContain('灵魂使用说明书');
+  expect(copied).toContain('utm_source=share_text');
+  expect(copied).toContain('ref=xiaohongshu');
 
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: '下载 PNG' }).click();
@@ -38,6 +40,7 @@ test('share preview produces a 1080x1440 card with a scannable attribution QR', 
   expect(qr!.data).toContain('utm_source=share_card');
   expect(qr!.data).toContain('utm_medium=image');
   expect(qr!.data).toContain('utm_content=');
+  expect(qr!.data).toContain('ref=xiaohongshu');
 
   let repeatedDownloads = 0;
   page.on('download', () => { repeatedDownloads += 1; });

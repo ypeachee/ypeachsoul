@@ -1,9 +1,11 @@
+import { getAttribution } from '../../analytics/attribution';
 import { getArchetype } from '../../domain/scoring';
 import type { Session } from '../../state/session';
 import { renderShareCard } from '../../share/card';
 import { copyText, downloadCanvas } from '../../share/download';
 import { createShareQrDataUrl } from '../../share/qr';
 import { buildShareText } from '../../share/text';
+import { buildShareUrl } from '../../share/url';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
 
@@ -18,7 +20,14 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     return;
   }
   const archetype = getArchetype(result.archetypeId);
-  const shareText = buildShareText(result);
+  let storage: Storage | undefined;
+  try {
+    storage = window.localStorage;
+  } catch {
+    storage = undefined;
+  }
+  const attribution = getAttribution(storage);
+  const shareText = buildShareText(result, buildShareUrl(result.archetypeId, undefined, attribution, 'text'));
 
   const content = `
     ${storageBanner(session)}
@@ -106,7 +115,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
       return;
     }
     try {
-      const qrDataUrl = await createShareQrDataUrl(archetype.id);
+      const qrDataUrl = await createShareQrDataUrl(archetype.id, undefined, attribution);
       await renderShareCard(canvas, archetype, qrDataUrl);
       cardReady = true;
       if (downloadButton) {

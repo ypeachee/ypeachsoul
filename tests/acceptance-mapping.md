@@ -2,7 +2,7 @@
 
 日期：2026-11-20
 验证命令：`npm run test`、`npm run test:e2e`、`npm run build`
-结果：Vitest 11/11，Playwright 18/18，生产构建成功。
+结果：Vitest 15/15，Playwright 19/19，生产构建成功。
 
 | AT ID | 自动化覆盖 | 证据 | 状态 |
 | --- | --- | --- | --- |
@@ -35,3 +35,4 @@
 ## 补充回归测试
 
 - 	ests/e2e/og.spec.ts：验证 OG/X Meta 标签、绝对图片地址以及 1200×630 PNG 尺寸。
+- 	ests/unit/attribution.test.ts、	ests/e2e/utm.spec.ts：验证 UTM 捕获、参数清理、首次归因与后续分享传参。

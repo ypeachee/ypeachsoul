@@ -40,7 +40,7 @@ npm run build
 - Playwright：完整答题、刷新恢复、分享下载、错误恢复、键盘操作、移动端、离线
 - Axe：首页与结果页 critical/serious 可访问性问题检查
 
-当前自动化结果：11 个单元测试、18 个端到端测试全部通过。
+当前自动化结果：15 个单元测试、19 个端到端测试全部通过。
 
 ## 截图
 
@@ -123,3 +123,23 @@ npm run qa:og
 ```text
 https://ypeachee.github.io/ypeachsoul/og.png
 ```
+## UTM 归因
+
+首次访问会捕获并保存以下参数：
+
+```text
+utm_source
+utm_medium
+utm_campaign
+utm_content
+utm_term
+ref
+```
+
+后续分享会自动生成独立归因链接：
+
+- 二维码：`utm_source=share_card&utm_medium=image&utm_campaign=referral`
+- 复制文案：`utm_source=share_text&utm_medium=copy&utm_campaign=referral`
+- 原始渠道通过 `ref` 继续传递
+
+完整投放链接见 `marketing/utm-links.md`。
