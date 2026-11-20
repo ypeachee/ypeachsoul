@@ -40,7 +40,7 @@ npm run build
 - Playwright：完整答题、刷新恢复、分享下载、错误恢复、键盘操作、移动端、离线
 - Axe：首页与结果页 critical/serious 可访问性问题检查
 
-当前自动化结果：11 个单元测试、17 个端到端测试全部通过。
+当前自动化结果：11 个单元测试、18 个端到端测试全部通过。
 
 ## 截图
 
@@ -104,3 +104,22 @@ VITE_PUBLIC_BASE_URL=https://your-domain.example/
 ```
 
 参考 `.env.example`。
+## OG 社交分享预览
+
+公开页面包含 Open Graph 和 X/Twitter 大图卡片：
+
+- `public/og.png`：1200×630
+- `og:title`、`og:description`、`og:image`、`og:url`
+- X：`summary_large_image`
+
+重新生成 OG 图片：
+
+```bash
+npm run qa:og
+```
+
+图片地址由 `VITE_PUBLIC_BASE_URL` 生成，默认：
+
+```text
+https://ypeachee.github.io/ypeachsoul/og.png
+```

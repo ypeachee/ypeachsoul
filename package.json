@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "check": "npm run test && npm run build",
-    "qa:visual": "node scripts/visual-qa.mjs"
+    "qa:visual": "node scripts/visual-qa.mjs",
+    "qa:og": "node scripts/generate-og.mjs"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.14.0",
