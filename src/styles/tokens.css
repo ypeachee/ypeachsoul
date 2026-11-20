@@ -1,0 +1,14 @@
+:root {
+  color-scheme: dark;
+  font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --ink: #151817;
+  --ink-soft: #232825;
+  --paper: #f2eddf;
+  --paper-muted: #b8b1a2;
+  --accent: #ff6d4d;
+  --accent-soft: #ffd9cb;
+  --line: rgba(242, 237, 223, 0.16);
+  --radius-lg: 32px;
+  --radius-md: 20px;
+  --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+}

@@ -1,0 +1,11 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+.vite/
+coverage/
+*.log
+!src/share/
+!src/share/**
+scripts/overflow.mjs
+qa/screenshots/05-quiz-375.png
