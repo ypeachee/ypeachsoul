@@ -40,7 +40,7 @@ npm run build
 - Playwright：完整答题、刷新恢复、分享下载、错误恢复、键盘操作、移动端、离线
 - Axe：首页与结果页 critical/serious 可访问性问题检查
 
-当前自动化结果：10 个单元测试、17 个端到端测试全部通过。
+当前自动化结果：17 个单元测试、20 个端到端测试全部通过。
 
 ## 截图
 
@@ -83,3 +83,84 @@ qa/screenshots/   视觉 QA 证据
 interaction-contract/INTERACTION_SPEC.md
 interaction-contract/ACCEPTANCE_TESTS.csv
 ```
+## 分享二维码
+
+分享卡上的二维码会按人格原型生成独立 UTM 链接：
+
+```text
+?utm_source=share_card&utm_medium=image&utm_content=<archetype-id>
+```
+
+默认域名是：
+
+```text
+https://ypeachee.github.io/ypeachsoul/
+```
+
+部署到其他域名时，在构建环境中设置：
+
+```bash
+VITE_PUBLIC_BASE_URL=https://your-domain.example/
+```
+
+参考 `.env.example`。
+## OG 社交分享预览
+
+公开页面包含 Open Graph 和 X/Twitter 大图卡片：
+
+- `public/og.png`：1200×630
+- `og:title`、`og:description`、`og:image`、`og:url`
+- X：`summary_large_image`
+
+重新生成 OG 图片：
+
+```bash
+npm run qa:og
+```
+
+图片地址由 `VITE_PUBLIC_BASE_URL` 生成，默认：
+
+```text
+https://ypeachee.github.io/ypeachsoul/og.png
+```
+## UTM 归因
+
+首次访问会捕获并保存以下参数：
+
+```text
+utm_source
+utm_medium
+utm_campaign
+utm_content
+utm_term
+ref
+```
+
+后续分享会自动生成独立归因链接：
+
+- 二维码：`utm_source=share_card&utm_medium=image&utm_campaign=referral`
+- 复制文案：`utm_source=share_text&utm_medium=copy&utm_campaign=referral`
+- 原始渠道通过 `ref` 继续传递
+
+完整投放链接见 `marketing/utm-links.md`。
+## 轻量统计
+
+统计使用 GoatCounter，默认关闭。注册后设置：
+
+```bash
+VITE_GOATCOUNTER_URL=https://YOURCODE.goatcounter.com/count
+```
+
+记录事件：
+
+```text
+test_start
+test_complete
+result_view
+share_card_open
+share_card_download
+share_text_copy
+retest_click
+```
+
+事件只附带 UTM 归因和原型 ID，不上传题目答案、姓名或其他个人信息。未配置 `VITE_GOATCOUNTER_URL` 时不会加载统计脚本，也不会发送请求。

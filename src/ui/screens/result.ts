@@ -1,3 +1,4 @@
+import { trackEvent } from '../../analytics/events';
 import { getArchetype } from '../../domain/scoring';
 import type { Session } from '../../state/session';
 import { announce, focusHeading } from '../a11y';
@@ -80,12 +81,14 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
 
   root.innerHTML = screenShell(content, 'result-shell');
   document.title = `${archetype.name} · 灵魂使用说明书`;
+  trackEvent('result_view', { archetypeId: archetype.id });
   announce(`你的原型是${archetype.name}`);
 
   const dialog = root.querySelector<HTMLDialogElement>('#reset-dialog');
   root.querySelector<HTMLButtonElement>('#share-result')?.addEventListener('click', actions.share);
   root.querySelector<HTMLButtonElement>('#home-result')?.addEventListener('click', actions.home);
   root.querySelector<HTMLButtonElement>('#restart-result')?.addEventListener('click', () => {
+    trackEvent('retest_click', { archetypeId: archetype.id });
     dialog?.showModal();
     dialog?.querySelector<HTMLButtonElement>('button[value="cancel"]')?.focus();
   });

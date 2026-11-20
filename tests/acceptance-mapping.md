@@ -2,7 +2,7 @@
 
 日期：2026-11-20
 验证命令：`npm run test`、`npm run test:e2e`、`npm run build`
-结果：Vitest 10/10，Playwright 17/17，生产构建成功。
+结果：Vitest 17/17，Playwright 20/20，生产构建成功。
 
 | AT ID | 自动化覆盖 | 证据 | 状态 |
 | --- | --- | --- | --- |
@@ -18,7 +18,7 @@
 | AT-010 | `tests/e2e/recovery.spec.ts` · session-only fallback | Playwright 输出 | passed |
 | AT-011 | `tests/e2e/persistence.spec.ts` · completed result reopen | Playwright 输出 | passed |
 | AT-012 | `tests/e2e/result.spec.ts` · required sections and disclaimer | `qa/screenshots/03-result.png` | passed |
-| AT-013 | `tests/e2e/share.spec.ts` · 1080×1440 preview | `qa/screenshots/04-share.png` | passed |
+| AT-013 | `tests/e2e/share.spec.ts` · 1080×1440 preview and scannable QR | `qa/screenshots/04-share.png` | passed |
 | AT-014 | `tests/e2e/share.spec.ts` · downloaded PNG header dimensions | Playwright download artifact + PNG header assertions | passed |
 | AT-015 | `tests/e2e/share.spec.ts` · clipboard text | Playwright clipboard assertion | passed |
 | AT-016 | `tests/e2e/share.spec.ts` · repeated download clicks | Playwright download count | passed |
@@ -31,3 +31,9 @@
 | AT-023 | `tests/e2e/accessibility.spec.ts` · reduced motion | Playwright computed style assertion | passed |
 | AT-024 | `tests/e2e/accessibility.spec.ts` · offline reload | Playwright offline test | passed |
 | AT-025 | `tests/e2e/privacy.spec.ts` · no POST/remote/file input/account/payment | Playwright request log | passed |
+
+## 补充回归测试
+
+- 	ests/e2e/og.spec.ts：验证 OG/X Meta 标签、绝对图片地址以及 1200×630 PNG 尺寸。
+- 	ests/unit/attribution.test.ts、	ests/e2e/utm.spec.ts：验证 UTM 捕获、参数清理、首次归因与后续分享传参。
+- 	ests/unit/analytics-events.test.ts、	ests/e2e/analytics.spec.ts：验证转化漏斗事件、UTM 参数和不上传答案。

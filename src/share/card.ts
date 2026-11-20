@@ -31,7 +31,39 @@ function wrapText(
   return cursorY;
 }
 
-export function renderShareCard(canvas: HTMLCanvasElement, archetype: Archetype): void {
+function loadImage(source: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error('QR image failed to load'));
+    image.src = source;
+  });
+}
+
+function drawQrPanel(context: CanvasRenderingContext2D, qrImage: HTMLImageElement): void {
+  const panelX = 720;
+  const panelY = 980;
+  const panelWidth = 250;
+  const panelHeight = 300;
+
+  context.fillStyle = 'rgba(242,237,223,0.96)';
+  context.beginPath();
+  context.roundRect(panelX, panelY, panelWidth, panelHeight, 28);
+  context.fill();
+
+  context.drawImage(qrImage, panelX + 25, panelY + 24, 200, 200);
+  context.fillStyle = '#343b36';
+  context.font = '600 22px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
+  context.textAlign = 'center';
+  context.fillText('扫码看你的原型', panelX + panelWidth / 2, panelY + 265);
+  context.textAlign = 'start';
+}
+
+export async function renderShareCard(
+  canvas: HTMLCanvasElement,
+  archetype: Archetype,
+  qrDataUrl: string,
+): Promise<void> {
   canvas.width = WIDTH;
   canvas.height = HEIGHT;
   const context = canvas.getContext('2d');
@@ -94,7 +126,10 @@ export function renderShareCard(canvas: HTMLCanvasElement, archetype: Archetype)
 
   context.fillStyle = 'rgba(242,237,223,0.9)';
   context.font = '400 38px "Songti SC", "STSong", serif';
-  wrapText(context, archetype.action, 110, pillY + 160, 840, 62);
+  wrapText(context, archetype.action, 110, pillY + 160, 550, 62);
+
+  const qrImage = await loadImage(qrDataUrl);
+  drawQrPanel(context, qrImage);
 
   context.fillStyle = 'rgba(242,237,223,0.68)';
   context.font = '500 25px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';

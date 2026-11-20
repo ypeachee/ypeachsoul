@@ -1,3 +1,5 @@
+import { captureAttribution } from './analytics/attribution';
+import { initAnalytics, trackEvent } from './analytics/events';
 import { createSession } from './state/session';
 import { createBrowserStorage } from './state/storage';
 import { ensureLiveRegion } from './ui/a11y';
@@ -9,6 +11,12 @@ import { renderShare } from './ui/screens/share';
 
 export function mountApp(root: HTMLElement): void {
   ensureLiveRegion(root);
+  try {
+    captureAttribution(window.location.search, window.localStorage);
+  } catch {
+    captureAttribution(window.location.search);
+  }
+  initAnalytics();
   const session = createSession(createBrowserStorage());
   if (!window.location.hash) {
     history.replaceState(null, '', '#intro');
@@ -38,7 +46,9 @@ export function mountApp(root: HTMLElement): void {
       renderQuiz(root, session, {
         rerender,
         complete() {
-          if (session.finish()) {
+          const result = session.finish();
+          if (result) {
+            trackEvent('test_complete', { archetypeId: result.archetypeId });
             navigate('result');
           }
         },
