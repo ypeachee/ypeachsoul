@@ -2,7 +2,7 @@
 
 日期：2026-11-20
 验证命令：`npm run test`、`npm run test:e2e`、`npm run build`
-结果：Vitest 10/10，Playwright 17/17，生产构建成功。
+结果：Vitest 11/11，Playwright 17/17，生产构建成功。
 
 | AT ID | 自动化覆盖 | 证据 | 状态 |
 | --- | --- | --- | --- |
@@ -18,7 +18,7 @@
 | AT-010 | `tests/e2e/recovery.spec.ts` · session-only fallback | Playwright 输出 | passed |
 | AT-011 | `tests/e2e/persistence.spec.ts` · completed result reopen | Playwright 输出 | passed |
 | AT-012 | `tests/e2e/result.spec.ts` · required sections and disclaimer | `qa/screenshots/03-result.png` | passed |
-| AT-013 | `tests/e2e/share.spec.ts` · 1080×1440 preview | `qa/screenshots/04-share.png` | passed |
+| AT-013 | `tests/e2e/share.spec.ts` · 1080×1440 preview and scannable QR | `qa/screenshots/04-share.png` | passed |
 | AT-014 | `tests/e2e/share.spec.ts` · downloaded PNG header dimensions | Playwright download artifact + PNG header assertions | passed |
 | AT-015 | `tests/e2e/share.spec.ts` · clipboard text | Playwright clipboard assertion | passed |
 | AT-016 | `tests/e2e/share.spec.ts` · repeated download clicks | Playwright download count | passed |

@@ -34,7 +34,7 @@ test('share fallback keeps a recovery path visible', async ({ page }) => {
     HTMLCanvasElement.prototype.getContext = () => null;
   });
   await page.getByRole('button', { name: '生成分享卡' }).click();
-  await expect(page.getByText('分享卡生成失败')).toBeVisible();
+  await expect(page.getByRole('heading', { name: '分享卡生成失败' })).toBeVisible();
   await expect(page.getByRole('button', { name: '重新生成' })).toBeVisible();
   await expect(page.getByRole('button', { name: '复制文字版' })).toBeVisible();
   await expect(page.getByRole('button', { name: '返回结果' })).toBeVisible();

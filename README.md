@@ -40,7 +40,7 @@ npm run build
 - Playwright：完整答题、刷新恢复、分享下载、错误恢复、键盘操作、移动端、离线
 - Axe：首页与结果页 critical/serious 可访问性问题检查
 
-当前自动化结果：10 个单元测试、17 个端到端测试全部通过。
+当前自动化结果：11 个单元测试、17 个端到端测试全部通过。
 
 ## 截图
 
@@ -83,3 +83,24 @@ qa/screenshots/   视觉 QA 证据
 interaction-contract/INTERACTION_SPEC.md
 interaction-contract/ACCEPTANCE_TESTS.csv
 ```
+## 分享二维码
+
+分享卡上的二维码会按人格原型生成独立 UTM 链接：
+
+```text
+?utm_source=share_card&utm_medium=image&utm_content=<archetype-id>
+```
+
+默认域名是：
+
+```text
+https://ypeachee.github.io/ypeachsoul/
+```
+
+部署到其他域名时，在构建环境中设置：
+
+```bash
+VITE_PUBLIC_BASE_URL=https://your-domain.example/
+```
+
+参考 `.env.example`。
