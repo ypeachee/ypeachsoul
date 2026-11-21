@@ -1,5 +1,0 @@
-interface:
-  display_name: "Anecdotal Case Study Paper"
-  short_description: "Formal, evidence-bounded humorous research papers"
-  brand_color: "#7A1F1F"
-  default_prompt: "Use $anecdotal-case-study-paper to turn these rough personal observations into a formal, evidence-bounded humorous case-study paper with figures and a verified PDF."
