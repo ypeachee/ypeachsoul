@@ -1,18 +1,23 @@
 import { getArchetype } from '../domain/scoring';
 import type { QuizResult } from '../domain/types';
+import { PRODUCT_NAME } from '../product';
 
 export function buildShareText(result: QuizResult, landingUrl?: string): string {
-  const archetype = getArchetype(result.archetypeId);
+  const primary = getArchetype(result.archetypeId);
+  const secondary = getArchetype(result.secondaryArchetypeId);
   const lines = [
-    `我的灵魂原型是：${archetype.name}`,
-    archetype.tagline,
-    `关键词：${archetype.keywords.join(' · ')}`,
+    `《${PRODUCT_NAME}》`,
+    '研究对象：我 · 样本量：n=1',
+    `研究结论：${primary.name} × ${secondary.name}`,
+    `竞争解释：${secondary.name}`,
+    primary.tagline,
+    `运行参数：${primary.keywords.join(' · ')}`,
     '',
-    '来做你的《灵魂使用说明书》',
+    `来做你的《${PRODUCT_NAME}》`,
   ];
   if (landingUrl) {
     lines.push(landingUrl);
   }
-  lines.push('娱乐与自我反思用途，不构成心理/医疗诊断');
+  lines.push('娱乐性自我报告，不构成心理/医疗诊断');
   return lines.join('\n');
 }

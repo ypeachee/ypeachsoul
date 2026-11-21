@@ -7,6 +7,7 @@ import { copyText, downloadCanvas } from '../../share/download';
 import { createShareQrDataUrl } from '../../share/qr';
 import { buildShareText } from '../../share/text';
 import { buildShareUrl } from '../../share/url';
+import { PRODUCT_NAME } from '../../product';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
 
@@ -21,6 +22,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     return;
   }
   const archetype = getArchetype(result.archetypeId);
+  const secondary = getArchetype(result.secondaryArchetypeId);
   let storage: Storage | undefined;
   try {
     storage = window.localStorage;
@@ -39,7 +41,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
         <p class="lede">保存为竖版图片，或复制文字发给你想分享的人。</p>
       </header>
       <div class="share-stage">
-        <canvas id="share-canvas" width="1080" height="1440" aria-label="${escapeHtml(archetype.name)}的分享卡预览"></canvas>
+        <canvas id="share-canvas" width="1080" height="1440" aria-label="${escapeHtml(archetype.name)} × ${escapeHtml(secondary.name)}的分享卡预览"></canvas>
         <div id="share-error" hidden></div>
       </div>
       <div class="share-actions">
@@ -48,12 +50,12 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
         <button class="text-button" id="close-share" type="button">关闭预览</button>
       </div>
       <p class="share-status" id="share-status" role="status" aria-live="polite">正在生成分享卡…</p>
-      <p class="global-disclaimer">娱乐与自我反思用途，不构成心理/医疗诊断</p>
+      <p class="global-disclaimer">娱乐性自我报告，不构成心理/医疗诊断</p>
     </section>
   `;
 
   root.innerHTML = screenShell(content, 'share-shell');
-  document.title = `${archetype.name}分享卡 · 灵魂使用说明书`;
+  document.title = `${archetype.name} × ${secondary.name} · ${PRODUCT_NAME}`;
   const canvas = root.querySelector<HTMLCanvasElement>('#share-canvas');
   const stage = root.querySelector<HTMLElement>('.share-stage');
   const status = root.querySelector<HTMLElement>('#share-status');
@@ -118,7 +120,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     }
     try {
       const qrDataUrl = await createShareQrDataUrl(archetype.id, undefined, attribution);
-      await renderShareCard(canvas, archetype, qrDataUrl);
+      await renderShareCard(canvas, archetype, secondary, qrDataUrl);
       cardReady = true;
       if (downloadButton) {
         downloadButton.disabled = false;
@@ -143,7 +145,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     }
     busy = true;
     downloadButton.disabled = true;
-    const outcome = await downloadCanvas(canvas, `灵魂使用说明书-${archetype.name}.png`);
+    const outcome = await downloadCanvas(canvas, `${PRODUCT_NAME}-${archetype.name}-${secondary.name}.png`);
     if (outcome === 'downloaded') {
       trackEvent('share_card_download', { archetypeId: archetype.id });
     }

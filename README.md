@@ -1,14 +1,25 @@
-# 灵魂使用说明书
+# 关于你的单案例研究 · V2.0
 
-一个 60–90 秒完成、可分享的自我人格原型测试。用户回答 10 道情境题，本地生成 8 种人格原型之一，并下载一张 1080×1440 竖版分享卡。
+一个约 **5 分钟**完成、可分享的娱乐性自我观察测试。用户回答 **30 道情境题**，系统在本地生成一份以用户为唯一样本的“人格观察报告”：主原型、竞争解释、证据分布与行动建议。
 
 ## 产品边界
 
-- 娱乐与自我反思用途，不构成心理/医疗诊断
+- 娱乐性自我报告，不构成心理/医疗诊断
 - 无需登录、无后端、无 AI API
 - 不上传答案、结果或个人资料
 - 不做命理预测、支付、云同步或账号体系
 - 刷新页面可恢复本地进度；清除数据前会二次确认
+
+## 方法噱头
+
+产品借用单案例研究的方法语言作为叙事框架：
+
+- 研究对象：你，样本量 `n=1`
+- 研究材料：30 个情境选择
+- 结果结构：主原型、竞争解释、证据分布、反例与局限
+- 方法框架：Anecdotal Case Study Paper Skill
+
+这不是正式心理测量，也不声称能给出稳定人格结论。
 
 ## 本地运行
 
@@ -36,62 +47,36 @@ npm run test:e2e
 npm run build
 ```
 
-- Vitest：题库、确定性评分、存储恢复、分享文案
+- Vitest：30 题题库、主副原型评分、确定性、存储恢复与分享文案
 - Playwright：完整答题、刷新恢复、分享下载、错误恢复、键盘操作、移动端、离线
 - Axe：首页与结果页 critical/serious 可访问性问题检查
-
-当前自动化结果：17 个单元测试、20 个端到端测试全部通过。
-
-## 截图
-
-视觉 QA 截图位于 `qa/screenshots/`：
-
-- `01-intro.png`
-- `02-quiz.png`
-- `03-result.png`
-- `04-share.png`
-
-重新生成截图：
-
-```bash
-npm run preview -- --host 127.0.0.1 --port 4174
-# 另开终端
-QA_URL=http://127.0.0.1:4174 npm run qa:visual
-```
-
-在 PowerShell 中可使用：
-
-```powershell
-$env:QA_URL='http://127.0.0.1:4174'; npm run qa:visual
-```
 
 ## 结构
 
 ```text
-src/domain/       题库、原型、评分
-src/state/        localStorage、会话状态机
-src/ui/           Hash 路由、可访问界面
+src/domain/       30 题题库、8 种原型、主副原型评分
+src/product.ts    产品名、题量、方法框架等品牌常量
+src/state/        localStorage v2、会话状态机
+src/ui/           Hash 路由、邀请页、答题页、研究报告结果页
 src/share/        Canvas 分享卡、下载、复制
 tests/unit/       Vitest
 tests/e2e/        Playwright
 qa/screenshots/   视觉 QA 证据
 ```
 
-规格与验收契约：
+## 版本兼容
 
-```text
-interaction-contract/INTERACTION_SPEC.md
-interaction-contract/ACCEPTANCE_TESTS.csv
-```
-## 分享二维码
+V2 使用新的存储键 `single_case_study_v2` 和 `schemaVersion: 2`。旧版 10 题草稿不会被静默迁移或误用。
 
-分享卡上的二维码会按人格原型生成独立 UTM 链接：
+## 分享与归因
+
+分享卡按主原型生成 UTM 链接：
 
 ```text
 ?utm_source=share_card&utm_medium=image&utm_content=<archetype-id>
 ```
 
-默认域名是：
+默认域名：
 
 ```text
 https://ypeachee.github.io/ypeachsoul/
@@ -102,65 +87,3 @@ https://ypeachee.github.io/ypeachsoul/
 ```bash
 VITE_PUBLIC_BASE_URL=https://your-domain.example/
 ```
-
-参考 `.env.example`。
-## OG 社交分享预览
-
-公开页面包含 Open Graph 和 X/Twitter 大图卡片：
-
-- `public/og.png`：1200×630
-- `og:title`、`og:description`、`og:image`、`og:url`
-- X：`summary_large_image`
-
-重新生成 OG 图片：
-
-```bash
-npm run qa:og
-```
-
-图片地址由 `VITE_PUBLIC_BASE_URL` 生成，默认：
-
-```text
-https://ypeachee.github.io/ypeachsoul/og.png
-```
-## UTM 归因
-
-首次访问会捕获并保存以下参数：
-
-```text
-utm_source
-utm_medium
-utm_campaign
-utm_content
-utm_term
-ref
-```
-
-后续分享会自动生成独立归因链接：
-
-- 二维码：`utm_source=share_card&utm_medium=image&utm_campaign=referral`
-- 复制文案：`utm_source=share_text&utm_medium=copy&utm_campaign=referral`
-- 原始渠道通过 `ref` 继续传递
-
-完整投放链接见 `marketing/utm-links.md`。
-## 轻量统计
-
-统计使用 GoatCounter，默认关闭。注册后设置：
-
-```bash
-VITE_GOATCOUNTER_URL=https://YOURCODE.goatcounter.com/count
-```
-
-记录事件：
-
-```text
-test_start
-test_complete
-result_view
-share_card_open
-share_card_download
-share_text_copy
-retest_click
-```
-
-事件只附带 UTM 归因和原型 ID，不上传题目答案、姓名或其他个人信息。未配置 `VITE_GOATCOUNTER_URL` 时不会加载统计脚本，也不会发送请求。

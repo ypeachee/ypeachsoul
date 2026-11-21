@@ -1,10 +1,10 @@
 import { questions } from '../domain/questions';
 import { ARCHETYPE_IDS, type AnswerMap, type ArchetypeId, type QuizResult } from '../domain/types';
 
-export const STORAGE_KEY = 'soul_manual_v1';
+export const STORAGE_KEY = 'single_case_study_v2';
 
 export interface PersistedState {
-  schemaVersion: 1;
+  schemaVersion: 2;
   answers: AnswerMap;
   currentQuestion: number;
   result: QuizResult | null;
@@ -36,7 +36,7 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function isValidResult(value: unknown): value is QuizResult {
-  if (!isRecord(value) || !ARCHETYPE_IDS.includes(value.archetypeId as ArchetypeId)) {
+  if (!isRecord(value) || !ARCHETYPE_IDS.includes(value.archetypeId as ArchetypeId) || !ARCHETYPE_IDS.includes(value.secondaryArchetypeId as ArchetypeId)) {
     return false;
   }
   if (typeof value.completedAt !== 'string' || !isRecord(value.scores)) {
@@ -47,7 +47,7 @@ function isValidResult(value: unknown): value is QuizResult {
 }
 
 function isValidState(value: unknown): value is PersistedState {
-  if (!isRecord(value) || value.schemaVersion !== 1 || !isRecord(value.answers)) {
+  if (!isRecord(value) || value.schemaVersion !== 2 || !isRecord(value.answers)) {
     return false;
   }
   if (!Number.isInteger(value.currentQuestion) || Number(value.currentQuestion) < 0 || Number(value.currentQuestion) >= questions.length) {

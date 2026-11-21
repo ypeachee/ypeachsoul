@@ -13,16 +13,26 @@ export function scoreAnswers(answers: AnswerMap, completedAt = new Date().toISOS
     scores[selectedOption.archetypeId] += 1;
   }
 
-  const highestScore = Math.max(...Object.values(scores));
-  const tied = ARCHETYPE_IDS.filter((id) => scores[id] === highestScore);
-  const finalOption = questions[9].options.find((option) => option.id === answers[questions[9].id]);
+  const ranked = [...ARCHETYPE_IDS].sort((a, b) => {
+    const scoreDifference = scores[b] - scores[a];
+    if (scoreDifference !== 0) {
+      return scoreDifference;
+    }
+    return ARCHETYPE_IDS.indexOf(a) - ARCHETYPE_IDS.indexOf(b);
+  });
+  const highestScore = scores[ranked[0]];
+  const tied = ranked.filter((id) => scores[id] === highestScore);
+  const lastQuestion = questions[questions.length - 1];
+  const finalOption = lastQuestion.options.find((option) => option.id === answers[lastQuestion.id]);
   const finalHint = finalOption?.archetypeId;
   const archetypeId = finalHint && tied.includes(finalHint)
     ? finalHint
-    : tied[0];
+    : ranked[0];
+  const secondaryArchetypeId = ranked.find((id) => id !== archetypeId) ?? archetypeId;
 
   return {
-    archetypeId: archetypeId ?? ARCHETYPE_IDS[0],
+    archetypeId,
+    secondaryArchetypeId,
     scores: { ...scores },
     completedAt,
   };

@@ -4,7 +4,7 @@ import { PNG } from 'pngjs';
 test('exposes a complete 1200x630 social preview', async ({ page, request }) => {
   await page.goto('/');
 
-  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', '灵魂使用说明书');
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', '关于你的单案例研究');
   await expect(page.locator('meta[property="og:locale"]')).toHaveAttribute('content', 'zh_CN');
   await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', 'https://ypeachee.github.io/ypeachsoul/');
   await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(

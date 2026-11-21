@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { questions } from '../../src/domain/questions';
 import { readFile } from 'node:fs/promises';
 import jsQR from 'jsqr';
 import { PNG } from 'pngjs';
@@ -6,10 +7,10 @@ import { PNG } from 'pngjs';
 test('share preview produces a 1080x1440 card with a scannable attribution QR', async ({ page, context }) => {
   await context.grantPermissions(['clipboard-read', 'clipboard-write']);
   await page.goto('/?utm_source=xiaohongshu&utm_medium=social&utm_campaign=launch_202611&utm_content=archetype_01');
-  await page.getByRole('button', { name: '开始测试' }).click();
-  for (let i = 1; i <= 10; i += 1) {
+  await page.getByRole('button', { name: '开始研究' }).click();
+  for (let i = 1; i <= questions.length; i += 1) {
     await page.getByRole('radio').first().check();
-    await page.getByRole('button', { name: i === 10 ? '查看结果' : '下一题' }).click();
+    await page.getByRole('button', { name: i === questions.length ? '查看研究结论' : '下一题' }).click();
   }
   await page.getByRole('button', { name: '生成分享卡' }).click();
   await expect(page.locator('#share-status')).toHaveText('分享卡已准备好');
@@ -20,7 +21,7 @@ test('share preview produces a 1080x1440 card with a scannable attribution QR', 
   await page.getByRole('button', { name: '复制结果文案' }).click();
   await expect(page.locator('#share-status')).toHaveText('结果文案已复制');
   const copied = await page.evaluate(() => navigator.clipboard.readText());
-  expect(copied).toContain('灵魂使用说明书');
+  expect(copied).toContain('关于你的单案例研究');
   expect(copied).toContain('utm_source=share_text');
   expect(copied).toContain('ref=xiaohongshu');
 

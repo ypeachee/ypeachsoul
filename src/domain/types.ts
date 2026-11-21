@@ -41,6 +41,7 @@ export type ArchetypeScores = Record<ArchetypeId, number>;
 
 export interface QuizResult {
   archetypeId: ArchetypeId;
+  secondaryArchetypeId: ArchetypeId;
   scores: Readonly<ArchetypeScores>;
   completedAt: string;
 }

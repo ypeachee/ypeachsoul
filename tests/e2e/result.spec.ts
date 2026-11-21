@@ -1,15 +1,16 @@
 import { expect, test } from '@playwright/test';
+import { questions } from '../../src/domain/questions';
 
 async function completeQuiz(page: import('@playwright/test').Page): Promise<number> {
   await page.goto('/');
-  await page.getByRole('button', { name: '开始测试' }).click();
+  await page.getByRole('button', { name: '开始研究' }).click();
   let transitionMs = 0;
-  for (let i = 1; i <= 10; i += 1) {
+  for (let i = 1; i <= questions.length; i += 1) {
     await page.getByRole('radio').first().check();
-    const startedAt = i === 10 ? Date.now() : 0;
-    await page.getByRole('button', { name: i === 10 ? '查看结果' : '下一题' }).click();
-    if (i === 10) {
-      await expect(page.getByRole('heading', { name: '你的原型' })).toBeVisible();
+    const startedAt = i === questions.length ? Date.now() : 0;
+    await page.getByRole('button', { name: i === questions.length ? '查看研究结论' : '下一题' }).click();
+    if (i === questions.length) {
+      await expect(page.getByRole('heading', { name: '研究结论' })).toBeVisible();
       transitionMs = Date.now() - startedAt;
     }
   }
@@ -19,25 +20,25 @@ async function completeQuiz(page: import('@playwright/test').Page): Promise<numb
 test('result contains every required section and disclaimer', async ({ page }) => {
   const transitionMs = await completeQuiz(page);
   expect(transitionMs).toBeLessThan(800);
-  for (const heading of ['你的原型', '三个优势', '两个盲点', '关系模式', '工作与能量', '此刻的行动']) {
+  for (const heading of ['研究结论', '证据分布', '主要证据', '反例与盲点', '关系场景', '工作场景', '下一步观察', '研究局限']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   }
-  await expect(page.getByText('娱乐与自我反思用途，不构成心理/医疗诊断')).toBeVisible();
+  await expect(page.getByText('娱乐性自我报告，不构成心理/医疗诊断')).toBeVisible();
 });
 
 test('reset asks first and cancel keeps the result', async ({ page }) => {
   await completeQuiz(page);
-  await page.getByRole('button', { name: '重新测试' }).click();
-  await expect(page.getByRole('dialog', { name: '清除当前结果？' })).toBeVisible();
+  await page.getByRole('button', { name: '重新研究' }).click();
+  await expect(page.getByRole('dialog', { name: '清除当前研究？' })).toBeVisible();
   await expect(page.getByRole('button', { name: '取消' })).toBeFocused();
   await page.getByRole('button', { name: '取消' }).click();
-  await expect(page.getByRole('heading', { name: '你的原型' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: '研究结论' })).toBeVisible();
 });
 
 test('confirmed reset clears the result and starts from question one', async ({ page }) => {
   await completeQuiz(page);
-  await page.getByRole('button', { name: '重新测试' }).click();
-  await page.getByRole('button', { name: '确认重新测试' }).click();
-  await expect(page.getByText('1 / 10')).toBeVisible();
+  await page.getByRole('button', { name: '重新研究' }).click();
+  await page.getByRole('button', { name: '确认重新研究' }).click();
+  await expect(page.getByText(`1 / ${questions.length}`)).toBeVisible();
   await expect(page.getByRole('radio').first()).not.toBeChecked();
 });

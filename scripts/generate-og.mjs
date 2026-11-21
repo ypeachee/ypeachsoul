@@ -43,18 +43,17 @@ await page.setContent(`
   </html>
   <body>
     <div class="frame"></div>
-    <div class="orb"><span class="count">8</span></div>
+    <div class="orb"><span class="count">1</span></div>
     <div class="copy">
-      <p class="eyebrow">A SMALL FIELD GUIDE TO YOURSELF</p>
-      <h1>灵魂使用<br /><span class="accent">说明书</span></h1>
-      <p class="lede">用 10 个选择，读一遍你此刻的内在运行方式。</p>
+      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V2.0</p>
+      <h1>关于你的<br /><span class="accent">单案例研究</span></h1>
+      <p class="lede">30 个情境选择，约 5 分钟，生成一份以你为唯一样本的人格观察报告。</p>
     </div>
     <div class="chips">
-      <span class="chip">深潜者</span><span class="chip">观星者</span><span class="chip">炼金者</span><span class="chip">织梦者</span>
-      <span class="chip">架构师</span><span class="chip">探路者</span><span class="chip">守火者</span><span class="chip">逐风者</span>
+      <span class="chip">30 道题</span><span class="chip">约 5 分钟</span><span class="chip">8 种原型</span><span class="chip">主原型 × 副原型</span>
     </div>
-    <div class="caption">种人格原型<br />找到你的那一种</div>
-    <div class="brand">灵魂使用说明书 · 娱乐与自我反思用途</div>
+    <div class="caption">研究对象<br />n=1</div>
+    <div class="brand">关于你的单案例研究 · 娱乐性自我报告</div>
   </body>
   </html>
 `);

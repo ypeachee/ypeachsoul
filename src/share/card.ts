@@ -1,4 +1,5 @@
 import type { Archetype } from '../domain/types';
+import { PRODUCT_NAME } from '../product';
 
 const WIDTH = 1080;
 const HEIGHT = 1440;
@@ -55,13 +56,14 @@ function drawQrPanel(context: CanvasRenderingContext2D, qrImage: HTMLImageElemen
   context.fillStyle = '#343b36';
   context.font = '600 22px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
   context.textAlign = 'center';
-  context.fillText('扫码看你的原型', panelX + panelWidth / 2, panelY + 265);
+  context.fillText('扫码生成你的单案例研究', panelX + panelWidth / 2, panelY + 265);
   context.textAlign = 'start';
 }
 
 export async function renderShareCard(
   canvas: HTMLCanvasElement,
   archetype: Archetype,
+  secondary: Archetype,
   qrDataUrl: string,
 ): Promise<void> {
   canvas.width = WIDTH;
@@ -91,25 +93,29 @@ export async function renderShareCard(
 
   context.fillStyle = '#ffd9cb';
   context.font = '500 26px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('A SMALL FIELD GUIDE TO YOURSELF', 110, 150);
+  context.fillText('A SINGLE-CASE STUDY OF YOU', 110, 150);
 
   context.fillStyle = '#f2eddf';
   context.font = '700 118px "Songti SC", "STSong", serif';
-  context.fillText(archetype.name, 104, 340);
+  context.fillText(archetype.name, 104, 330);
+
+  context.fillStyle = 'rgba(242,237,223,0.72)';
+  context.font = '500 28px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
+  context.fillText(`竞争解释：${secondary.name}`, 110, 398);
 
   context.fillStyle = 'rgba(242,237,223,0.82)';
   context.font = '400 50px "Songti SC", "STSong", serif';
-  const taglineBottom = wrapText(context, archetype.tagline, 110, 430, 800, 70);
+  const taglineBottom = wrapText(context, archetype.tagline, 110, 455, 800, 70);
 
   context.fillStyle = 'rgba(242,237,223,0.18)';
-  context.fillRect(110, Math.max(taglineBottom + 36, 590), 860, 2);
+  context.fillRect(110, Math.max(taglineBottom + 36, 620), 860, 2);
 
   context.fillStyle = '#f2eddf';
   context.font = '600 34px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('核心关键词', 110, Math.max(taglineBottom + 120, 680));
+  context.fillText('运行参数', 110, Math.max(taglineBottom + 120, 710));
 
   let pillX = 110;
-  const pillY = Math.max(taglineBottom + 150, 710);
+  const pillY = Math.max(taglineBottom + 150, 740);
   for (const keyword of archetype.keywords) {
     context.font = '600 32px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
     const pillWidth = context.measureText(keyword).width + 54;
@@ -133,7 +139,7 @@ export async function renderShareCard(
 
   context.fillStyle = 'rgba(242,237,223,0.68)';
   context.font = '500 25px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('灵魂使用说明书', 110, HEIGHT - 150);
+  context.fillText(PRODUCT_NAME, 110, HEIGHT - 150);
   context.font = '400 20px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('娱乐与自我反思用途，不构成心理/医疗诊断', 110, HEIGHT - 108);
+  context.fillText('娱乐性自我报告，不构成心理/医疗诊断', 110, HEIGHT - 108);
 }

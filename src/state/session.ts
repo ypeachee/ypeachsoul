@@ -22,7 +22,7 @@ export interface Session {
 
 function emptyState(): PersistedState {
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     answers: {},
     currentQuestion: 0,
     result: null,

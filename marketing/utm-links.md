@@ -1,4 +1,4 @@
-# 灵魂使用说明书 UTM 投放链接
+# 关于你的单案例研究 UTM 投放链接
 
 基础地址：
 
@@ -32,7 +32,7 @@ https://ypeachee.github.io/ypeachsoul/?utm_source=xiaohongshu&utm_medium=social&
 ## 抖音
 
 ```text
-https://ypeachee.github.io/ypeachsoul/?utm_source=douyin&utm_medium=video&utm_campaign=launch_202611&utm_content=ten_questions_demo
+https://ypeachee.github.io/ypeachsoul/?utm_source=douyin&utm_medium=video&utm_campaign=launch_202611&utm_content=thirty_questions_demo
 ```
 
 原型卡片视频：

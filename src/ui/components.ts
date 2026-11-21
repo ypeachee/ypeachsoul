@@ -1,4 +1,5 @@
 import type { Session } from '../state/session';
+import { PRODUCT_NAME } from '../product';
 
 export function escapeHtml(value: string): string {
   return value
@@ -12,8 +13,8 @@ export function escapeHtml(value: string): string {
 export function appHeader(): string {
   return `
     <header class="topbar">
-      <a class="brand-link" href="#intro" aria-label="返回灵魂使用说明书首页">灵魂使用说明书</a>
-      <span class="topbar-note">内在运行手册</span>
+      <a class="brand-link" href="#intro" aria-label="返回${PRODUCT_NAME}首页">${PRODUCT_NAME}</a>
+      <span class="topbar-note">SINGLE-CASE STUDY · V2.0</span>
     </header>
   `;
 }
@@ -25,7 +26,7 @@ export function storageBanner(session: Session): string {
   return `
     <div class="notice notice-warning" role="status">
       <strong>本次进度仅在当前页面保留</strong>
-      <p>浏览器无法写入本地存储；刷新后需要重新测试。</p>
+      <p>浏览器无法写入本地存储；刷新后需要重新研究。</p>
     </div>
   `;
 }

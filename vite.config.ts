@@ -9,9 +9,9 @@ export default defineConfig({
       injectRegister: 'auto',
       includeAssets: ['icon.svg'],
       manifest: {
-        name: '灵魂使用说明书',
-        short_name: '灵魂手册',
-        description: '用十个选择，读一遍你此刻的内在运行方式。',
+        name: '关于你的单案例研究',
+        short_name: '单案例研究',
+        description: '30 个情境选择，约 5 分钟，生成一份以你为唯一样本的人格观察报告。',
         theme_color: '#151817',
         background_color: '#151817',
         display: 'standalone',

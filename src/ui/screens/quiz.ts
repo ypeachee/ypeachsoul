@@ -1,4 +1,5 @@
 import { questions } from '../../domain/questions';
+import { PRODUCT_NAME } from '../../product';
 import type { Session } from '../../state/session';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
@@ -31,7 +32,7 @@ export function renderQuiz(root: HTMLElement, session: Session, actions: QuizAct
         <p class="progress-label">${state.currentQuestion + 1} / ${questions.length}</p>
         <span class="progress-track" aria-hidden="true"><span style="width:${((state.currentQuestion + 1) / questions.length) * 100}%"></span></span>
       </div>
-      <p class="eyebrow">CHOOSE THE ANSWER THAT FEELS CLOSEST</p>
+      <p class="eyebrow">CHOOSE THE OBSERVATION CLOSEST TO YOU</p>
       <h1 id="question-title" tabindex="-1">${escapeHtml(question.prompt)}</h1>
       <form id="quiz-form">
         <fieldset class="option-list">
@@ -40,14 +41,14 @@ export function renderQuiz(root: HTMLElement, session: Session, actions: QuizAct
         </fieldset>
         <div class="quiz-actions">
           <button class="secondary-button" id="quiz-previous" type="button" ${state.currentQuestion === 0 ? 'disabled' : ''}>上一题</button>
-          <button class="primary-button" id="quiz-next" type="submit" ${selectedOptionId ? '' : 'disabled'}>${isLast ? '查看结果' : '下一题'}</button>
+          <button class="primary-button" id="quiz-next" type="submit" ${selectedOptionId ? '' : 'disabled'}>${isLast ? '查看研究结论' : '下一题'}</button>
         </div>
       </form>
     </section>
   `;
 
   root.innerHTML = screenShell(content, 'quiz-shell');
-  document.title = `${state.currentQuestion + 1}/${questions.length} · 灵魂使用说明书`;
+  document.title = `${PRODUCT_NAME} · 第 ${state.currentQuestion + 1} / ${questions.length} 题`;
   announce(`第 ${state.currentQuestion + 1} 题，共 ${questions.length} 题`);
 
   const form = root.querySelector<HTMLFormElement>('#quiz-form');

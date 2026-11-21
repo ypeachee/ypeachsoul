@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { questions } from '../../src/domain/questions';
 
 test('records the conversion funnel without sending answers or personal data', async ({ page }) => {
   await page.addInitScript(() => {
@@ -11,10 +12,10 @@ test('records the conversion funnel without sending answers or personal data', a
   });
 
   await page.goto('/?utm_source=xiaohongshu&utm_medium=social&utm_campaign=launch_202611&utm_content=archetype_01');
-  await page.getByRole('button', { name: '开始测试' }).click();
-  for (let i = 1; i <= 10; i += 1) {
+  await page.getByRole('button', { name: '开始研究' }).click();
+  for (let i = 1; i <= questions.length; i += 1) {
     await page.getByRole('radio').first().check();
-    await page.getByRole('button', { name: i === 10 ? '查看结果' : '下一题' }).click();
+    await page.getByRole('button', { name: i === questions.length ? '查看研究结论' : '下一题' }).click();
   }
   await page.getByRole('button', { name: '生成分享卡' }).click();
   await expect(page.locator('#share-status')).toHaveText('分享卡已准备好');

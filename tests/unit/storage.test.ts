@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { createBrowserStorage, createMemoryStorage } from '../../src/state/storage';
+import { createBrowserStorage, createMemoryStorage, STORAGE_KEY } from '../../src/state/storage';
+import { questions } from '../../src/domain/questions';
 import { createSession } from '../../src/state/session';
 
 describe('persistence and session', () => {
@@ -15,14 +16,14 @@ describe('persistence and session', () => {
   });
 
   it('reports corrupted JSON without deleting it automatically', () => {
-    const raw = new Map<string, string>([['soul_manual_v1', '{bad-json']]);
+    const raw = new Map<string, string>([[STORAGE_KEY, '{bad-json']]);
     const adapter = createBrowserStorage({
       getItem: (key) => raw.get(key) ?? null,
       setItem: (key, value) => raw.set(key, value),
       removeItem: (key) => raw.delete(key),
     });
     expect(adapter.load()).toMatchObject({ status: 'invalid' });
-    expect(raw.get('soul_manual_v1')).toBe('{bad-json');
+    expect(raw.get(STORAGE_KEY)).toBe('{bad-json');
   });
 
   it('falls back to session-only state when writes fail', () => {
@@ -37,7 +38,7 @@ describe('persistence and session', () => {
   it('finishes once and keeps a deterministic result', () => {
     const session = createSession(createMemoryStorage());
     session.start(true);
-    for (let index = 0; index < 10; index += 1) {
+    for (let index = 0; index < questions.length; index += 1) {
       session.answer(`q${index + 1}`, `q${index + 1}-a`);
       session.next();
     }
