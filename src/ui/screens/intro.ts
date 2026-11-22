@@ -1,6 +1,6 @@
 import type { Session } from '../../state/session';
 import { trackEvent } from '../../analytics/events';
-import { ESTIMATED_MINUTES, METHOD_FRAMEWORK, PRODUCT_NAME, PRODUCT_TAGLINE, QUESTION_COUNT } from '../../product';
+import { ESTIMATED_MINUTES, LENS_COUNT, METHOD_FRAMEWORK, PRODUCT_NAME, PRODUCT_TAGLINE, QUESTION_COUNT } from '../../product';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
 
@@ -19,13 +19,14 @@ export function renderIntro(root: HTMLElement, session: Session, actions: IntroA
 
   const content = `
     <section class="hero" aria-labelledby="intro-title">
-      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V2.0</p>
+      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V3.0</p>
       <h1 id="intro-title" tabindex="-1"><span class="title-line">关于你的</span><span class="title-line">单案例研究</span></h1>
       <p class="lede">${PRODUCT_TAGLINE}</p>
       <div class="meta-row">
         <span>约 ${ESTIMATED_MINUTES} 分钟</span>
         <span>${QUESTION_COUNT} 道题</span>
         <span>无需登录</span>
+        <span>${LENS_COUNT} 镜附录</span>
       </div>
       <div class="research-meta" aria-label="研究方法说明">
         <span><strong>研究方法</strong> 单案例自然观察</span>

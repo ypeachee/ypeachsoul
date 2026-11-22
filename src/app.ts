@@ -8,6 +8,7 @@ import { renderIntro } from './ui/screens/intro';
 import { renderQuiz } from './ui/screens/quiz';
 import { renderResult } from './ui/screens/result';
 import { renderShare } from './ui/screens/share';
+import { renderLenses } from './ui/screens/lenses';
 
 export function mountApp(root: HTMLElement): void {
   ensureLiveRegion(root);
@@ -61,6 +62,7 @@ export function mountApp(root: HTMLElement): void {
     if (route === 'result') {
       renderResult(root, session, {
         share: () => navigate('share'),
+        lenses: () => navigate('lenses'),
         restart: () => navigate('quiz'),
         home: () => navigate('intro'),
       });
@@ -68,6 +70,13 @@ export function mountApp(root: HTMLElement): void {
     }
     if (route === 'share') {
       renderShare(root, session, { close: () => navigate('result') });
+      return;
+    }
+    if (route === 'lenses') {
+      renderLenses(root, session, {
+        close: () => navigate('result'),
+        share: () => navigate('share'),
+      });
       return;
     }
     navigate('intro');

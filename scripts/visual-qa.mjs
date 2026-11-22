@@ -19,6 +19,9 @@ for (let i = 1; i <= questionCount; i += 1) {
   await page.getByRole('button', { name: i === questionCount ? '查看研究结论' : '下一题' }).click();
 }
 await page.screenshot({ path: fileURLToPath(new URL('03-result.png', output)), fullPage: true });
+await page.getByRole('button', { name: '打开六镜附录' }).click();
+await page.screenshot({ path: fileURLToPath(new URL('05-lenses.png', output)), fullPage: true });
+await page.getByRole('button', { name: '返回研究结论' }).click();
 await page.getByRole('button', { name: '生成分享卡' }).click();
 await page.locator('#share-status').filter({ hasText: '分享卡已准备好' }).waitFor();
 await page.screenshot({ path: fileURLToPath(new URL('04-share.png', output)), fullPage: true });

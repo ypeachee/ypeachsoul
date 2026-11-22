@@ -11,7 +11,7 @@ export default defineConfig({
       manifest: {
         name: '关于你的单案例研究',
         short_name: '单案例研究',
-        description: '30 个情境选择，约 5 分钟，生成一份以你为唯一样本的人格观察报告。',
+        description: '30 个情境选择 + 六镜文化附录，约 5 分钟，生成一份以你为唯一样本的人格观察报告。',
         theme_color: '#151817',
         background_color: '#151817',
         display: 'standalone',

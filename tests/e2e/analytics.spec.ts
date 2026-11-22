@@ -17,6 +17,8 @@ test('records the conversion funnel without sending answers or personal data', a
     await page.getByRole('radio').first().check();
     await page.getByRole('button', { name: i === questions.length ? '查看研究结论' : '下一题' }).click();
   }
+  await page.getByRole('button', { name: '打开六镜附录' }).click();
+  await page.getByRole('button', { name: '返回研究结论' }).click();
   await page.getByRole('button', { name: '生成分享卡' }).click();
   await expect(page.locator('#share-status')).toHaveText('分享卡已准备好');
   await page.getByRole('button', { name: '复制结果文案' }).click();
@@ -33,6 +35,7 @@ test('records the conversion funnel without sending answers or personal data', a
     'test_start',
     'test_complete',
     'result_view',
+    'lens_view',
     'share_card_open',
     'share_text_copy',
     'share_card_download',

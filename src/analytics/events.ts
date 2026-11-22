@@ -4,6 +4,7 @@ export const ANALYTICS_EVENTS = [
   'test_start',
   'test_complete',
   'result_view',
+  'lens_view',
   'share_card_open',
   'share_card_download',
   'share_text_copy',

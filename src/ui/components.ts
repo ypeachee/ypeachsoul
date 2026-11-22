@@ -14,7 +14,7 @@ export function appHeader(): string {
   return `
     <header class="topbar">
       <a class="brand-link" href="#intro" aria-label="返回${PRODUCT_NAME}首页">${PRODUCT_NAME}</a>
-      <span class="topbar-note">SINGLE-CASE STUDY · V2.0</span>
+      <span class="topbar-note">SINGLE-CASE STUDY · V3.0</span>
     </header>
   `;
 }

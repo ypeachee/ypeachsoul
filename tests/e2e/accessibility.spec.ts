@@ -34,6 +34,9 @@ test('critical accessibility scan is clean on the intro and result screens', asy
   await completeQuizWithKeyboard(page);
   const result = await new AxeBuilder({ page }).analyze();
   expect(result.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
+  await page.getByRole('button', { name: '打开六镜附录' }).click();
+  const lenses = await new AxeBuilder({ page }).analyze();
+  expect(lenses.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
 });
 
 test('375px layout has no horizontal overflow and touch targets are large enough', async ({ page }) => {

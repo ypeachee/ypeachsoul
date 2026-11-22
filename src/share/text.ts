@@ -12,6 +12,7 @@ export function buildShareText(result: QuizResult, landingUrl?: string): string 
     `竞争解释：${secondary.name}`,
     primary.tagline,
     `运行参数：${primary.keywords.join(' · ')}`,
+    '六镜附录：奇门/紫微 · 八字 · 月老 · 佛学 · 风水 · 塔罗',
     '',
     `来做你的《${PRODUCT_NAME}》`,
   ];

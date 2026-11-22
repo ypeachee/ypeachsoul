@@ -8,6 +8,7 @@ import { escapeHtml, screenShell, storageBanner } from '../components';
 
 export interface ResultActions {
   share(): void;
+  lenses(): void;
   restart(): void;
   home(): void;
 }
@@ -54,7 +55,7 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
     ${storageBanner(session)}
     <article class="result-card research-report" style="--archetype-accent:${escapeHtml(archetype.accent)}">
       <header class="result-hero research-hero">
-        <p class="eyebrow">RESEARCH NOTE · N=1 · 30 ITEMS · V2.0</p>
+        <p class="eyebrow">RESEARCH NOTE · N=1 · 30 ITEMS · V3.0</p>
         <h1 tabindex="-1">研究结论</h1>
         <p class="research-meta-line">方法框架：${METHOD_FRAMEWORK} · 研究类型：娱乐性自我报告</p>
         <p class="result-name">${escapeHtml(archetype.name)}</p>
@@ -105,6 +106,7 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
 
       <div class="result-actions">
         <button class="primary-button" id="share-result" type="button">生成分享卡</button>
+        <button class="secondary-button" id="lenses-result" type="button">打开六镜附录</button>
         <button class="secondary-button" id="restart-result" type="button">重新研究</button>
         <button class="text-button" id="home-result" type="button">返回首页</button>
       </div>
@@ -132,6 +134,7 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
 
   const dialog = root.querySelector<HTMLDialogElement>('#reset-dialog');
   root.querySelector<HTMLButtonElement>('#share-result')?.addEventListener('click', actions.share);
+  root.querySelector<HTMLButtonElement>('#lenses-result')?.addEventListener('click', actions.lenses);
   root.querySelector<HTMLButtonElement>('#home-result')?.addEventListener('click', actions.home);
   root.querySelector<HTMLButtonElement>('#restart-result')?.addEventListener('click', () => {
     trackEvent('retest_click', { archetypeId: archetype.id });
