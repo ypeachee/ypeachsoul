@@ -345,3 +345,104 @@ h1:focus { outline: none; }
   .tarot-row { grid-template-columns: 1fr; }
   .tarot-card { min-height: auto; }
 }
+
+/* V3.1: collapsible lens navigation */
+.lens-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  margin: 0 0 12px;
+  padding: 10px 0;
+  background: color-mix(in srgb, var(--ink) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+.lens-nav-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--accent-soft);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+.lens-nav-list {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 0 5px;
+  scrollbar-width: thin;
+}
+.lens-nav-button {
+  flex: 0 0 auto;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(242, 237, 223, 0.035);
+  color: var(--paper);
+  font-size: 12px;
+  cursor: pointer;
+}
+.lens-nav-button:hover,
+.lens-nav-button:focus-visible {
+  border-color: var(--accent);
+  background: rgba(255, 109, 77, 0.11);
+}
+.lens-nav-button:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
+.lens-list-controls { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 18px; }
+.lens-list-controls .text-button { min-height: 34px; font-size: 11px; }
+.lens-card {
+  display: block;
+  padding: 0;
+  overflow: hidden;
+  scroll-margin-top: 112px;
+}
+.lens-summary {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: start;
+  padding: 20px 22px;
+  cursor: pointer;
+  list-style: none;
+}
+.lens-summary::-webkit-details-marker { display: none; }
+.lens-summary:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
+.lens-summary-index {
+  color: var(--accent-soft);
+  font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+}
+.lens-summary-copy { display: grid; min-width: 0; gap: 4px; }
+.lens-summary h2 {
+  margin: 0;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: 29px;
+  line-height: 1.1;
+}
+.lens-summary-observation {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--paper-muted);
+  font-size: 12px;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.lens-summary-toggle {
+  padding: 5px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--paper-muted);
+  font-size: 10px;
+  white-space: nowrap;
+}
+.lens-card[open] .lens-summary { border-bottom: 1px solid var(--line); }
+.lens-card[open] .lens-summary-toggle { color: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.lens-card-body { display: flex; flex-direction: column; gap: 15px; padding: 20px 22px 22px; }
+@media (max-width: 760px) {
+  .lens-summary { grid-template-columns: auto minmax(0, 1fr); padding: 18px 16px; }
+  .lens-summary-toggle { grid-column: 2; justify-self: start; }
+  .lens-card-body { padding: 16px; }
+  .lens-nav { margin-left: -4px; margin-right: -4px; }
+}

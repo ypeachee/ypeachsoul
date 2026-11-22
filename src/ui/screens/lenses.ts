@@ -21,7 +21,12 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
   const primary = getArchetype(result.archetypeId);
   const secondary = getArchetype(result.secondaryArchetypeId);
   const readings = buildLensReadings(result);
-  const lensCards = readings.map((lens) => {
+  const navButtons = readings.map((lens) => `
+    <button type="button" class="lens-nav-button" data-lens-target="${escapeHtml(lens.id)}">
+      ${escapeHtml(lens.title)}
+    </button>
+  `).join('');
+  const lensCards = readings.map((lens, index) => {
     const tarot = lens.tarot
       ? `<div class="tarot-row">${lens.tarot.map((card) => `
           <div class="tarot-card">
@@ -31,24 +36,31 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
           </div>`).join('')}</div>`
       : '';
     return `
-      <article class="lens-card" data-lens-id="${escapeHtml(lens.id)}">
-        <header class="lens-card-head">
-          <div>
-            <p class="eyebrow">${escapeHtml(lens.kicker)}</p>
+      <details class="lens-card" id="lens-${escapeHtml(lens.id)}" data-lens-id="${escapeHtml(lens.id)}">
+        <summary class="lens-summary">
+          <span class="lens-summary-index">${String(index + 1).padStart(2, '0')}</span>
+          <span class="lens-summary-copy">
+            <span class="eyebrow">${escapeHtml(lens.kicker)}</span>
             <h2>${escapeHtml(lens.title)}</h2>
+            <span class="lens-summary-observation">${escapeHtml(lens.observation)}</span>
+          </span>
+          <span class="lens-summary-toggle" aria-hidden="true">展开</span>
+        </summary>
+        <div class="lens-card-body">
+          <div class="lens-card-head">
+            <p class="lens-method">${escapeHtml(lens.method)}</p>
+            <a href="${escapeHtml(lens.sourceUrl)}" target="_blank" rel="noreferrer noopener">来源仓库 ↗</a>
           </div>
-          <a href="${escapeHtml(lens.sourceUrl)}" target="_blank" rel="noreferrer noopener">来源仓库 ↗</a>
-        </header>
-        <p class="lens-method">${escapeHtml(lens.method)}</p>
-        <p class="lens-observation">${escapeHtml(lens.observation)}</p>
-        ${tarot}
-        <div class="lens-question">
-          <span>反思问题</span>
-          <p>${escapeHtml(lens.question)}</p>
+          <p class="lens-observation">${escapeHtml(lens.observation)}</p>
+          ${tarot}
+          <div class="lens-question">
+            <span>反思问题</span>
+            <p>${escapeHtml(lens.question)}</p>
+          </div>
+          <p class="lens-practice"><strong>今日练习：</strong>${escapeHtml(lens.practice)}</p>
+          <p class="lens-license">${escapeHtml(lens.sourceLabel)} · ${escapeHtml(lens.license)}</p>
         </div>
-        <p class="lens-practice"><strong>今日练习：</strong>${escapeHtml(lens.practice)}</p>
-        <p class="lens-license">${escapeHtml(lens.sourceLabel)} · ${escapeHtml(lens.license)}</p>
-      </article>
+      </details>
     `;
   }).join('');
 
@@ -63,7 +75,7 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
     ${storageBanner(session)}
     <section class="lens-shell-card" aria-labelledby="lens-title">
       <header class="lens-hero">
-        <p class="eyebrow">APPENDIX A · SIX INTERPRETIVE LENSES · V3.0</p>
+        <p class="eyebrow">APPENDIX A · SIX INTERPRETIVE LENSES · V3.1</p>
         <h1 id="lens-title" tabindex="-1">六镜附录</h1>
         <p class="lede">同一份答案，用六种文化语言重新描述一遍。这里是解释练习，不是排盘、预测、诊断或投资建议。</p>
         <p class="research-meta-line">研究结论：${escapeHtml(primary.name)} × ${escapeHtml(secondary.name)} · 主研究样本：n=1</p>
@@ -71,7 +83,16 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
 
       <div class="lens-boundary">
         <strong>阅读方式</strong>
-        <p>每一镜都只提供一个观察角度。把它们当成“换一种说法看自己”，不要当成关于未来的事实。</p>
+        <p>每一镜都只提供一个观察角度。先点开你最有感觉的一镜，不必一次读完。</p>
+      </div>
+
+      <nav class="lens-nav" aria-label="六镜快捷导航">
+        <span class="lens-nav-label">六镜导航</span>
+        <div class="lens-nav-list">${navButtons}</div>
+      </nav>
+      <div class="lens-list-controls">
+        <button type="button" class="text-button" data-lens-action="expand">展开全部</button>
+        <button type="button" class="text-button" data-lens-action="collapse">收起全部</button>
       </div>
 
       <div class="lens-grid">${lensCards}</div>
@@ -95,6 +116,41 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
   document.title = `六镜附录 · ${PRODUCT_NAME}`;
   trackEvent('lens_view', { archetypeId: primary.id });
   announce(`六镜附录已打开，研究结论是${primary.name}，竞争解释是${secondary.name}`);
+
+  const details = Array.from(root.querySelectorAll<HTMLDetailsElement>('details[data-lens-id]'));
+  const updateToggleLabels = (): void => {
+    for (const detail of details) {
+      const toggle = detail.querySelector<HTMLElement>('.lens-summary-toggle');
+      if (toggle) {
+        toggle.textContent = detail.open ? '收起' : '展开';
+      }
+    }
+  };
+  const setAll = (open: boolean): void => {
+    for (const detail of details) {
+      detail.open = open;
+    }
+    updateToggleLabels();
+  };
+  const openLens = (id: string): void => {
+    setAll(false);
+    const target = root.querySelector<HTMLDetailsElement>(`#lens-${CSS.escape(id)}`);
+    if (!target) {
+      return;
+    }
+    target.open = true;
+    updateToggleLabels();
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    target.querySelector<HTMLElement>('summary')?.focus({ preventScroll: true });
+  };
+
+  root.querySelectorAll<HTMLButtonElement>('[data-lens-target]').forEach((button) => {
+    button.addEventListener('click', () => openLens(button.dataset.lensTarget ?? ''));
+  });
+  root.querySelector<HTMLButtonElement>('[data-lens-action="expand"]')?.addEventListener('click', () => setAll(true));
+  root.querySelector<HTMLButtonElement>('[data-lens-action="collapse"]')?.addEventListener('click', () => setAll(false));
+  details.forEach((detail) => detail.addEventListener('toggle', updateToggleLabels));
   root.querySelector<HTMLButtonElement>('#lens-close')?.addEventListener('click', actions.close);
   root.querySelector<HTMLButtonElement>('#lens-share')?.addEventListener('click', actions.share);
   window.requestAnimationFrame(() => focusHeading());

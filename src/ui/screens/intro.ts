@@ -19,7 +19,7 @@ export function renderIntro(root: HTMLElement, session: Session, actions: IntroA
 
   const content = `
     <section class="hero" aria-labelledby="intro-title">
-      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V3.0</p>
+      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V3.1</p>
       <h1 id="intro-title" tabindex="-1"><span class="title-line">关于你的</span><span class="title-line">单案例研究</span></h1>
       <p class="lede">${PRODUCT_TAGLINE}</p>
       <div class="meta-row">

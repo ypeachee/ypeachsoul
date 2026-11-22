@@ -55,7 +55,7 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
     ${storageBanner(session)}
     <article class="result-card research-report" style="--archetype-accent:${escapeHtml(archetype.accent)}">
       <header class="result-hero research-hero">
-        <p class="eyebrow">RESEARCH NOTE · N=1 · 30 ITEMS · V3.0</p>
+        <p class="eyebrow">RESEARCH NOTE · N=1 · 30 ITEMS · V3.1</p>
         <h1 tabindex="-1">研究结论</h1>
         <p class="research-meta-line">方法框架：${METHOD_FRAMEWORK} · 研究类型：娱乐性自我报告</p>
         <p class="result-name">${escapeHtml(archetype.name)}</p>

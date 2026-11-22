@@ -31,7 +31,7 @@
 | AT-023 | `tests/e2e/accessibility.spec.ts` · reduced motion | Playwright computed style assertion | passed |
 | AT-024 | `tests/e2e/accessibility.spec.ts` · offline reload | Playwright offline test | passed |
 | AT-025 | `tests/e2e/privacy.spec.ts` · no POST/remote/file input/account/payment | Playwright request log | passed |
-| AT-026 | `tests/e2e/lenses.spec.ts` · six-lens appendix | Playwright 输出、`qa/screenshots/05-lenses.png` | passed |
+| AT-026 | `tests/e2e/lenses.spec.ts` · six-lens appendix | Playwright 输出、`qa/screenshots/05-lenses.png`、`qa/screenshots/06-lens-expanded.png` | passed |
 
 ## 补充回归测试
 

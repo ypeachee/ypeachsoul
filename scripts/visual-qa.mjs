@@ -21,6 +21,8 @@ for (let i = 1; i <= questionCount; i += 1) {
 await page.screenshot({ path: fileURLToPath(new URL('03-result.png', output)), fullPage: true });
 await page.getByRole('button', { name: '打开六镜附录' }).click();
 await page.screenshot({ path: fileURLToPath(new URL('05-lenses.png', output)), fullPage: true });
+await page.getByRole('button', { name: '塔罗', exact: true }).click();
+await page.screenshot({ path: fileURLToPath(new URL('06-lens-expanded.png', output)), fullPage: true });
 await page.getByRole('button', { name: '返回研究结论' }).click();
 await page.getByRole('button', { name: '生成分享卡' }).click();
 await page.locator('#share-status').filter({ hasText: '分享卡已准备好' }).waitFor();

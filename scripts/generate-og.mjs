@@ -45,7 +45,7 @@ await page.setContent(`
     <div class="frame"></div>
     <div class="orb"><span class="count">1</span></div>
     <div class="copy">
-      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V3.0</p>
+      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V3.1</p>
       <h1>关于你的<br /><span class="accent">单案例研究</span></h1>
       <p class="lede">30 个情境选择 + 六镜文化附录，约 5 分钟，生成一份以你为唯一样本的人格观察报告。</p>
     </div>

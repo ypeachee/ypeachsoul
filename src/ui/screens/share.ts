@@ -36,7 +36,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     ${storageBanner(session)}
     <section class="share-card-layout" aria-labelledby="share-title">
       <header class="share-copy">
-        <p class="eyebrow">READY TO SHARE · SIX-LENS V3.0</p>
+        <p class="eyebrow">READY TO SHARE · SIX-LENS V3.1</p>
         <h1 id="share-title" tabindex="-1">分享卡</h1>
         <p class="lede">保存为竖版图片，或复制文字发给你想分享的人。</p>
       </header>
