@@ -346,7 +346,7 @@ h1:focus { outline: none; }
   .tarot-card { min-height: auto; }
 }
 
-/* V3.1: collapsible lens navigation */
+/* V3.1: collapsible lens navigation (kept in V4) */
 .lens-nav {
   position: sticky;
   top: 0;
@@ -445,4 +445,185 @@ h1:focus { outline: none; }
   .lens-summary-toggle { grid-column: 2; justify-self: start; }
   .lens-card-body { padding: 16px; }
   .lens-nav { margin-left: -4px; margin-right: -4px; }
+}
+/* V4: interactive tarot and bazi lenses */
+.lens-enter-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid color-mix(in srgb, var(--accent) 52%, var(--line));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  color: var(--paper);
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+.lens-enter-button:hover { background: color-mix(in srgb, var(--accent) 20%, transparent); }
+.lens-enter-button:focus-visible { outline: 3px solid var(--paper); outline-offset: 3px; }
+.lens-preview-badge {
+  align-self: flex-start;
+  padding: 6px 10px;
+  border: 1px dashed var(--line);
+  border-radius: 999px;
+  color: var(--paper-muted);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+
+.tool-shell { display: flex; flex-direction: column; }
+.tool-shell-card {
+  width: min(100%, 1040px);
+  margin: auto;
+  padding: clamp(24px, 5vw, 54px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: rgba(242, 237, 223, 0.055);
+  box-shadow: var(--shadow);
+}
+.tool-hero { padding-bottom: 26px; border-bottom: 1px solid var(--line); }
+.tool-hero h1 { max-width: none; margin: 12px 0 10px; font-size: clamp(42px, 7vw, 72px); }
+.tool-hero .lede { max-width: 44em; font-size: clamp(17px, 2.4vw, 22px); }
+.tool-back { margin-bottom: 20px; }
+.tool-boundary {
+  margin-top: 24px;
+  padding: 17px 18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--accent) 8%, transparent);
+}
+.tool-boundary strong { display: block; margin-bottom: 6px; color: var(--accent-soft); }
+.tool-boundary p { margin: 0; color: var(--paper-muted); line-height: 1.7; }
+
+.lens-form {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(8, 12, 10, 0.2);
+}
+.form-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.form-field { display: grid; align-content: start; gap: 8px; }
+.form-field > label { color: var(--paper); font-size: 13px; font-weight: 700; }
+.form-field > label span { color: var(--paper-muted); font-size: 11px; font-weight: 400; }
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(242, 237, 223, 0.055);
+  color: var(--paper);
+  font: inherit;
+  font-size: 14px;
+}
+.form-field textarea { resize: vertical; line-height: 1.6; }
+.form-field input::placeholder,
+.form-field textarea::placeholder { color: color-mix(in srgb, var(--paper-muted) 72%, transparent); }
+.form-field input:focus-visible,
+.form-field select:focus-visible,
+.form-field textarea:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+.form-field input:disabled { opacity: 0.45; }
+.form-field select { color-scheme: dark; }
+.checkbox-field { display: flex; align-items: center; gap: 9px; color: var(--paper-muted); font-size: 12px; }
+.checkbox-field input { width: 18px; min-height: 18px; margin: 0; accent-color: var(--accent); }
+.field-hint { color: var(--paper-muted); font-size: 11px; line-height: 1.55; }
+.tool-form-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+#bazi-error { margin: 0; }
+
+.tool-reading {
+  display: grid;
+  gap: 20px;
+  margin-top: 28px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.reading-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+.reading-head h2 {
+  margin: 8px 0 0;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: clamp(32px, 5vw, 48px);
+  line-height: 1.05;
+}
+.reading-head h2:focus-visible { outline: 3px solid var(--accent); outline-offset: 5px; }
+.reading-question { margin: 9px 0 0; color: var(--paper-muted); line-height: 1.6; }
+.drawn-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.drawn-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+  padding: 18px;
+  border: 1px solid color-mix(in srgb, var(--accent) 42%, var(--line));
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(255, 109, 77, 0.12), rgba(242, 237, 223, 0.025));
+}
+.drawn-card-position { color: var(--accent-soft); font-size: 11px; letter-spacing: 0.12em; }
+.drawn-card-orientation { margin-top: 5px; color: var(--paper-muted); font-size: 10px; }
+.drawn-card h3 { margin: 28px 0 10px; font-family: "Songti SC", "STSong", serif; font-size: 28px; }
+.drawn-card p { margin: 0; color: var(--paper); font-size: 13px; line-height: 1.7; }
+.drawn-card-meta { margin-top: auto; padding-top: 20px; color: var(--paper-muted); font-size: 10px; }
+.reading-panel,
+.reading-action,
+.method-note {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(242, 237, 223, 0.028);
+}
+.reading-panel p { margin: 8px 0 0; color: var(--paper-muted); line-height: 1.75; }
+.reading-panel h3 { margin: 8px 0 0; color: var(--paper); font-family: "Songti SC", "STSong", serif; font-size: 34px; }
+.reading-action {
+  border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.reading-action span { color: var(--accent-soft); font-size: 11px; letter-spacing: 0.1em; }
+.reading-action p { margin: 8px 0 0; color: var(--paper); line-height: 1.7; }
+.reading-closing { margin: 0; color: var(--paper-muted); font-size: 13px; line-height: 1.7; }
+.bazi-summary-grid { display: grid; grid-template-columns: minmax(0, 0.75fr) minmax(0, 1.25fr); gap: 14px; }
+.pillar-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+.pillar-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(8, 12, 10, 0.2);
+}
+.pillar-card > span { color: var(--accent-soft); font-size: 10px; letter-spacing: 0.1em; }
+.pillar-card strong { display: block; margin: 12px 0 8px; font-family: "Songti SC", "STSong", serif; font-size: 30px; }
+.pillar-card p { margin: 0; color: var(--paper-muted); font-size: 12px; }
+.pillar-card small { display: block; margin-top: 8px; color: var(--paper-muted); font-size: 10px; opacity: 0.8; }
+.element-list { display: grid; gap: 10px; margin-top: 14px; }
+.element-row { display: grid; grid-template-columns: 20px minmax(0, 1fr) 24px; align-items: center; gap: 10px; color: var(--paper-muted); font-size: 12px; }
+.element-row strong { color: var(--paper); text-align: right; }
+.element-track { height: 7px; overflow: hidden; border-radius: 999px; background: rgba(242, 237, 223, 0.08); }
+.element-track i { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+.element-note { font-size: 11px !important; }
+.method-note summary { color: var(--paper); cursor: pointer; font-size: 13px; font-weight: 700; }
+.method-note p { margin-bottom: 0; color: var(--paper-muted); font-size: 12px; line-height: 1.7; }
+
+@media (max-width: 760px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .drawn-card-grid { grid-template-columns: 1fr; }
+  .drawn-card { min-height: auto; }
+  .bazi-summary-grid { grid-template-columns: 1fr; }
+  .pillar-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .reading-head { flex-direction: column; }
+  .tool-form-actions > * { flex: 1 1 100%; }
+}
+@media (max-width: 480px) {
+  .tool-shell-card { padding: 22px 14px; }
+  .lens-form { padding: 18px 14px; }
+  .pillar-grid { grid-template-columns: 1fr; }
+  .tool-hero h1 { font-size: clamp(37px, 12vw, 52px); }
 }

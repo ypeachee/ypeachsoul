@@ -9,6 +9,8 @@ import { renderQuiz } from './ui/screens/quiz';
 import { renderResult } from './ui/screens/result';
 import { renderShare } from './ui/screens/share';
 import { renderLenses } from './ui/screens/lenses';
+import { renderTarot } from './ui/screens/tarot';
+import { renderBazi } from './ui/screens/bazi';
 
 export function mountApp(root: HTMLElement): void {
   ensureLiveRegion(root);
@@ -76,6 +78,28 @@ export function mountApp(root: HTMLElement): void {
       renderLenses(root, session, {
         close: () => navigate('result'),
         share: () => navigate('share'),
+      });
+      return;
+    }
+    if (route === 'tarot') {
+      if (!session.state().result) {
+        navigate('intro');
+        return;
+      }
+      renderTarot(root, session, {
+        back: () => navigate('lenses'),
+        lenses: () => navigate('lenses'),
+      });
+      return;
+    }
+    if (route === 'bazi') {
+      if (!session.state().result) {
+        navigate('intro');
+        return;
+      }
+      renderBazi(root, session, {
+        back: () => navigate('lenses'),
+        lenses: () => navigate('lenses'),
       });
       return;
     }

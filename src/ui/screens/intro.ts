@@ -1,6 +1,6 @@
 import type { Session } from '../../state/session';
 import { trackEvent } from '../../analytics/events';
-import { ESTIMATED_MINUTES, LENS_COUNT, METHOD_FRAMEWORK, PRODUCT_NAME, PRODUCT_TAGLINE, QUESTION_COUNT } from '../../product';
+import { ESTIMATED_MINUTES, LENS_COUNT, METHOD_FRAMEWORK, PRODUCT_NAME, PRODUCT_TAGLINE, PRODUCT_VERSION_LABEL, QUESTION_COUNT } from '../../product';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
 
@@ -19,7 +19,7 @@ export function renderIntro(root: HTMLElement, session: Session, actions: IntroA
 
   const content = `
     <section class="hero" aria-labelledby="intro-title">
-      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · V3.1</p>
+      <p class="eyebrow">A SINGLE-CASE STUDY OF YOU · ${PRODUCT_VERSION_LABEL}</p>
       <h1 id="intro-title" tabindex="-1"><span class="title-line">关于你的</span><span class="title-line">单案例研究</span></h1>
       <p class="lede">${PRODUCT_TAGLINE}</p>
       <div class="meta-row">
@@ -43,7 +43,7 @@ export function renderIntro(root: HTMLElement, session: Session, actions: IntroA
         <button class="primary-button" id="intro-primary" type="button">${escapeHtml(primaryLabel)}</button>
         ${hasResult ? '<button class="secondary-button" id="intro-restart" type="button">重新研究</button>' : ''}
       </div>
-      <p class="disclaimer">娱乐性自我报告，不构成心理/医疗诊断</p>
+      <p class="disclaimer">娱乐性自我报告，不构成心理/医疗诊断、命理预测或现实决策依据</p>
     </section>
   `;
 

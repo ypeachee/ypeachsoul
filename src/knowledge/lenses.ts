@@ -1,13 +1,9 @@
 import { getArchetype } from '../domain/scoring';
 import { ARCHETYPE_IDS, type ArchetypeId, type QuizResult } from '../domain/types';
+import { drawMajorArcana, type TarotDraw } from './tarot';
 
 export type LensId = 'qimen-ziwei' | 'bazi' | 'yinyuan' | 'buddhist' | 'fengshui' | 'tarot';
 
-export interface TarotDraw {
-  name: string;
-  orientation: '正位' | '逆位';
-  meaning: string;
-}
 
 export interface LensReading {
   id: LensId;
@@ -50,7 +46,7 @@ export const LENS_DEFINITIONS: readonly LensDefinition[] = [
     sourceLabel: 'jinchenma94/bazi-skill',
     sourceUrl: 'https://github.com/jinchenma94/bazi-skill',
     license: 'MIT',
-    method: '借用五行与四柱的结构化思路，把行为偏好翻译成元素隐喻；不进行真实排盘。',
+    method: '摘要层借用五行与四柱的结构化思路，把行为偏好翻译成元素隐喻；完整四柱排盘在八字实验页完成。',
   },
   {
     id: 'yinyuan',
@@ -76,7 +72,7 @@ export const LENS_DEFINITIONS: readonly LensDefinition[] = [
     kicker: '环境摩擦',
     sourceLabel: 'voidforall/fengshui.skill',
     sourceUrl: 'https://github.com/voidforall/fengshui.skill',
-    license: '未声明许可证，仅作方法论参考',
+    license: 'MIT，仅作方法论参考',
     method: '把“运势”翻译成环境摩擦：观察空间、动线与未完成任务如何消耗注意力。',
   },
   {
@@ -90,30 +86,6 @@ export const LENS_DEFINITIONS: readonly LensDefinition[] = [
   },
 ];
 
-const MAJOR_ARCANA: ReadonlyArray<{ name: string; upright: string; reversed: string }> = [
-  { name: '愚者', upright: '信任未知，允许一个新的开始', reversed: '先确认脚下，再决定跳向哪里' },
-  { name: '魔术师', upright: '把已有的资源组合成行动', reversed: '不要用技巧遮住真正的意图' },
-  { name: '女祭司', upright: '给直觉留出安静的空间', reversed: '直觉需要被事实校验' },
-  { name: '皇后', upright: '滋养一个正在生长的东西', reversed: '先照顾自己，再照顾所有人' },
-  { name: '皇帝', upright: '建立边界、规则与可执行结构', reversed: '结构过硬时，关系会失去弹性' },
-  { name: '教皇', upright: '向传统与方法学习', reversed: '不要把他人的答案当成自己的答案' },
-  { name: '恋人', upright: '在连接中做一次真实选择', reversed: '选择困难可能来自价值冲突' },
-  { name: '战车', upright: '集中意志，向前推进', reversed: '速度不能替代方向' },
-  { name: '力量', upright: '温柔而坚定地处理冲突', reversed: '压抑的力量会以别的方式回来' },
-  { name: '隐者', upright: '独处、复盘、寻找内在光源', reversed: '独处太久会变成回避' },
-  { name: '命运之轮', upright: '承认周期与变化', reversed: '不要把所有变化都解释成命运' },
-  { name: '正义', upright: '检查因果、责任与公平', reversed: '在判断前补齐缺失的信息' },
-  { name: '倒吊人', upright: '暂停，换一个角度', reversed: '暂停不是永久停滞' },
-  { name: '死神', upright: '让一个阶段真正结束', reversed: '抗拒结束会延长消耗' },
-  { name: '节制', upright: '调配节奏，寻找中间路径', reversed: '极端投入需要被重新平衡' },
-  { name: '恶魔', upright: '看见让你上瘾的模式', reversed: '承认执着，才有松开的可能' },
-  { name: '塔', upright: '让不稳固的结构显露问题', reversed: '小修小补可能拖延真正的重建' },
-  { name: '星星', upright: '在失望之后重新连接希望', reversed: '希望需要具体行动承接' },
-  { name: '月亮', upright: '允许模糊，辨认情绪与投射', reversed: '迷雾中先不要做不可逆决定' },
-  { name: '太阳', upright: '清晰、活力与可见性', reversed: '过度曝光也会消耗能量' },
-  { name: '审判', upright: '复盘过去，回应新的召唤', reversed: '不要用自我审判代替行动' },
-  { name: '世界', upright: '完成一个循环，整合经验', reversed: '完成前还需要处理一个未结项' },
-];
 
 const ELEMENT_BY_ARCHETYPE: Record<ArchetypeId, string> = {
   'deep-diver': '水',
@@ -147,22 +119,6 @@ function pick<T>(items: readonly T[], random: () => number): T {
   return items[Math.floor(random() * items.length)] ?? items[0];
 }
 
-function drawTarot(seed: string): TarotDraw[] {
-  const random = seededRandom(seed);
-  const pool = [...MAJOR_ARCANA];
-  const draws: TarotDraw[] = [];
-  for (let index = 0; index < 3; index += 1) {
-    const cardIndex = Math.floor(random() * pool.length);
-    const card = pool.splice(cardIndex, 1)[0];
-    const orientation = random() > 0.34 ? '正位' : '逆位';
-    draws.push({
-      name: card.name,
-      orientation,
-      meaning: orientation === '正位' ? card.upright : card.reversed,
-    });
-  }
-  return draws;
-}
 
 export function buildLensReadings(result: QuizResult): LensReading[] {
   const primary = getArchetype(result.archetypeId);
@@ -178,7 +134,7 @@ export function buildLensReadings(result: QuizResult): LensReading[] {
   const secondaryElement = ELEMENT_BY_ARCHETYPE[secondary.id];
   const qimenWindow = pick(['清晨', '午后', '傍晚', '夜间'], random);
   const qimenDirection = pick(['向内', '向外', '向上', '向前'], random);
-  const tarot = drawTarot(`${seed}|tarot`);
+  const tarot = drawMajorArcana(`${seed}|tarot`);
 
   return [
     {
@@ -200,7 +156,7 @@ export function buildLensReadings(result: QuizResult): LensReading[] {
       sourceLabel: 'jinchenma94/bazi-skill',
       sourceUrl: 'https://github.com/jinchenma94/bazi-skill',
       license: 'MIT',
-      method: '借用五行与四柱的结构化思路，把行为偏好翻译成元素隐喻；不进行真实排盘。',
+      method: '摘要层借用五行与四柱的结构化思路，把行为偏好翻译成元素隐喻；完整四柱排盘在八字实验页完成。',
       observation: `你的主原型被翻译为「${primaryElement}」，竞争解释被翻译为「${secondaryElement}」。这不是命盘，只是一个提醒：你最常用的能量，可能也是你最不愿意调整的部分。`,
       question: '如果当前问题不是“我是什么命”，而是“我是不是把同一种元素用得过重”，你会先减掉什么？',
       practice: '把一个任务拆成“启动、推进、收束”三个动作，各用五分钟，不追求一次做完。',
@@ -235,7 +191,7 @@ export function buildLensReadings(result: QuizResult): LensReading[] {
       kicker: '环境摩擦',
       sourceLabel: 'voidforall/fengshui.skill',
       sourceUrl: 'https://github.com/voidforall/fengshui.skill',
-      license: '未声明许可证，仅作方法论参考',
+      license: 'MIT，仅作方法论参考',
       method: '把“运势”翻译成环境摩擦：观察空间、动线与未完成任务如何消耗注意力。',
       observation: `你的工作场景提示：${primary.work} 这不是方位判断，而是一条环境线索：你的空间是否在持续提醒你未完成的事？`,
       question: '你每天最常经过的一个位置，正在支持你，还是在反复消耗你？',

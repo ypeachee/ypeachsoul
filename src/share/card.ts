@@ -93,7 +93,7 @@ export async function renderShareCard(
 
   context.fillStyle = '#ffd9cb';
   context.font = '500 26px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('A SINGLE-CASE STUDY OF YOU · V3.1', 110, 150);
+  context.fillText('A SINGLE-CASE STUDY OF YOU · V4.0', 110, 150);
 
   context.fillStyle = '#f2eddf';
   context.font = '700 118px "Songti SC", "STSong", serif';
@@ -141,5 +141,5 @@ export async function renderShareCard(
   context.font = '500 25px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
   context.fillText(PRODUCT_NAME, 110, HEIGHT - 150);
   context.font = '400 20px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('娱乐性自我报告，不构成心理/医疗诊断', 110, HEIGHT - 108);
+  context.fillText('娱乐性自我报告，不构成心理/医疗诊断、命理预测或现实决策依据', 110, HEIGHT - 108);
 }

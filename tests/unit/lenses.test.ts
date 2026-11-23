@@ -42,6 +42,7 @@ describe('six-lens appendix', () => {
     expect(new Set(tarot?.tarot?.map((card) => card.name)).size).toBe(3);
     expect(lenses.every((lens) => lens.sourceUrl.startsWith('https://github.com/'))).toBe(true);
     expect(lenses.find((lens) => lens.id === 'bazi')?.license).toBe('MIT');
+    expect(lenses.find((lens) => lens.id === 'fengshui')?.license).toBe('MIT，仅作方法论参考');
     expect(lenses.find((lens) => lens.id === 'tarot')?.license).toBe('MIT');
   });
 

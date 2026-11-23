@@ -1,6 +1,6 @@
-export type Screen = 'intro' | 'quiz' | 'scoring' | 'result' | 'share' | 'lenses';
+export type Screen = 'intro' | 'quiz' | 'scoring' | 'result' | 'share' | 'lenses' | 'tarot' | 'bazi';
 
-const screens = new Set<Screen>(['intro', 'quiz', 'scoring', 'result', 'share', 'lenses']);
+const screens = new Set<Screen>(['intro', 'quiz', 'scoring', 'result', 'share', 'lenses', 'tarot', 'bazi']);
 
 export function getRoute(): Screen {
   const candidate = window.location.hash.replace(/^#/, '') as Screen;

@@ -1,7 +1,7 @@
 import { trackEvent } from '../../analytics/events';
 import { getArchetype } from '../../domain/scoring';
 import { buildLensReadings } from '../../knowledge/lenses';
-import { PRODUCT_NAME } from '../../product';
+import { PRODUCT_NAME, PRODUCT_VERSION_LABEL } from '../../product';
 import type { Session } from '../../state/session';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
@@ -27,6 +27,11 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
     </button>
   `).join('');
   const lensCards = readings.map((lens, index) => {
+    const toolAction = lens.id === 'tarot'
+      ? '<a class="lens-enter-button" data-lens-tool="tarot" href="#tarot">开始 78 牌三牌实验 →</a>'
+      : lens.id === 'bazi'
+        ? '<a class="lens-enter-button" data-lens-tool="bazi" href="#bazi">输入出生信息，开始排盘 →</a>'
+        : '<span class="lens-preview-badge">知识页先行 · 交互实验待上线</span>';
     const tarot = lens.tarot
       ? `<div class="tarot-row">${lens.tarot.map((card) => `
           <div class="tarot-card">
@@ -58,6 +63,7 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
             <p>${escapeHtml(lens.question)}</p>
           </div>
           <p class="lens-practice"><strong>今日练习：</strong>${escapeHtml(lens.practice)}</p>
+          ${toolAction}
           <p class="lens-license">${escapeHtml(lens.sourceLabel)} · ${escapeHtml(lens.license)}</p>
         </div>
       </details>
@@ -75,15 +81,15 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
     ${storageBanner(session)}
     <section class="lens-shell-card" aria-labelledby="lens-title">
       <header class="lens-hero">
-        <p class="eyebrow">APPENDIX A · SIX INTERPRETIVE LENSES · V3.1</p>
+        <p class="eyebrow">APPENDIX A · SIX INTERPRETIVE LENSES · ${PRODUCT_VERSION_LABEL}</p>
         <h1 id="lens-title" tabindex="-1">六镜附录</h1>
-        <p class="lede">同一份答案，用六种文化语言重新描述一遍。这里是解释练习，不是排盘、预测、诊断或投资建议。</p>
+        <p class="lede">同一份答案，用六种文化语言重新描述一遍。八字与塔罗已开放本地交互实验；所有结果都是文化解释练习，不是预测、诊断或现实决策依据。</p>
         <p class="research-meta-line">研究结论：${escapeHtml(primary.name)} × ${escapeHtml(secondary.name)} · 主研究样本：n=1</p>
       </header>
 
       <div class="lens-boundary">
         <strong>阅读方式</strong>
-        <p>每一镜都只提供一个观察角度。先点开你最有感觉的一镜，不必一次读完。</p>
+        <p>每一镜都只提供一个观察角度。八字与塔罗可以继续操作，其余四镜先保留为知识与反思页。</p>
       </div>
 
       <nav class="lens-nav" aria-label="六镜快捷导航">
@@ -100,7 +106,7 @@ export function renderLenses(root: HTMLElement, session: Session, actions: LensA
       <section class="source-ledger" aria-labelledby="source-title">
         <p class="eyebrow">METHOD SOURCES</p>
         <h2 id="source-title">工具台账</h2>
-        <p>本页只借鉴各仓库的高层方法与工程思想，不复制未授权内容。八字与塔罗来源为 MIT；其余来源未声明明确许可证。</p>
+        <p>八字排盘由 MIT 许可的 lunar-typescript 在浏览器内完成；塔罗采用 MIT 仓库的牌组结构与本地抽牌方法；风水只参考 MIT 仓库的环境观察方法。其余未声明许可证的来源只作高层方法论参考。</p>
         <ul>${sourceRows}</ul>
       </section>
 

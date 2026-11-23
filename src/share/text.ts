@@ -19,6 +19,6 @@ export function buildShareText(result: QuizResult, landingUrl?: string): string 
   if (landingUrl) {
     lines.push(landingUrl);
   }
-  lines.push('娱乐性自我报告，不构成心理/医疗诊断');
+  lines.push('娱乐性自我报告，不构成心理/医疗诊断、命理预测或现实决策依据');
   return lines.join('\n');
 }

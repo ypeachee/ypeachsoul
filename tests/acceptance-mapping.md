@@ -1,8 +1,8 @@
 # Acceptance Mapping
 
-日期：2026-11-22
+日期：2026-11-23
 验证命令：`npm run test`、`npm run test:e2e`、`npm run build`
-结果：Vitest 20/20，Playwright 21/21，生产构建成功。
+结果：Vitest 26/26，Playwright 23/23，生产构建成功。
 
 | AT ID | 自动化覆盖 | 证据 | 状态 |
 | --- | --- | --- | --- |
@@ -32,6 +32,9 @@
 | AT-024 | `tests/e2e/accessibility.spec.ts` · offline reload | Playwright offline test | passed |
 | AT-025 | `tests/e2e/privacy.spec.ts` · no POST/remote/file input/account/payment | Playwright request log | passed |
 | AT-026 | `tests/e2e/lenses.spec.ts` · six-lens appendix | Playwright 输出、`qa/screenshots/05-lenses.png`、`qa/screenshots/06-lens-expanded.png` | passed |
+| AT-027 | `tests/unit/tarot.test.ts`、`tests/e2e/interactive-lenses.spec.ts` · 78 张牌、三牌无重复、本地抽牌 | Vitest/Playwright 输出、`qa/screenshots/07-tarot.png` | passed |
+| AT-028 | `tests/unit/bazi.test.ts`、`tests/e2e/interactive-lenses.spec.ts` · 四柱计算、未知时辰与非法输入 | Vitest/Playwright 输出、`qa/screenshots/08-bazi.png` | passed |
+| AT-029 | `tests/e2e/interactive-lenses.spec.ts` · 塔罗问题与出生信息不写入 localStorage | Playwright localStorage 断言 | passed |
 
 ## 补充回归测试
 

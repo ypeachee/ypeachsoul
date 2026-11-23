@@ -1,5 +1,5 @@
 import type { Session } from '../state/session';
-import { PRODUCT_NAME } from '../product';
+import { PRODUCT_NAME, PRODUCT_VERSION_LABEL } from '../product';
 
 export function escapeHtml(value: string): string {
   return value
@@ -14,7 +14,7 @@ export function appHeader(): string {
   return `
     <header class="topbar">
       <a class="brand-link" href="#intro" aria-label="返回${PRODUCT_NAME}首页">${PRODUCT_NAME}</a>
-      <span class="topbar-note">SINGLE-CASE STUDY · V3.1</span>
+      <span class="topbar-note">SINGLE-CASE STUDY · ${PRODUCT_VERSION_LABEL}</span>
     </header>
   `;
 }

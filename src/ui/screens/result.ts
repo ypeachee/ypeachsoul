@@ -1,7 +1,7 @@
 import { trackEvent } from '../../analytics/events';
 import { getArchetype } from '../../domain/scoring';
 import { ARCHETYPE_IDS, type ArchetypeId } from '../../domain/types';
-import { METHOD_FRAMEWORK, PRODUCT_NAME } from '../../product';
+import { METHOD_FRAMEWORK, PRODUCT_NAME, PRODUCT_VERSION_LABEL } from '../../product';
 import type { Session } from '../../state/session';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
@@ -55,7 +55,7 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
     ${storageBanner(session)}
     <article class="result-card research-report" style="--archetype-accent:${escapeHtml(archetype.accent)}">
       <header class="result-hero research-hero">
-        <p class="eyebrow">RESEARCH NOTE · N=1 · 30 ITEMS · V3.1</p>
+        <p class="eyebrow">RESEARCH NOTE · N=1 · 30 ITEMS · ${PRODUCT_VERSION_LABEL}</p>
         <h1 tabindex="-1">研究结论</h1>
         <p class="research-meta-line">方法框架：${METHOD_FRAMEWORK} · 研究类型：娱乐性自我报告</p>
         <p class="result-name">${escapeHtml(archetype.name)}</p>
@@ -124,7 +124,7 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
       </div>
     </dialog>
 
-    <p class="global-disclaimer">娱乐性自我报告，不构成心理/医疗诊断</p>
+    <p class="global-disclaimer">娱乐性自我报告，不构成心理/医疗诊断、命理预测或现实决策依据</p>
   `;
 
   root.innerHTML = screenShell(content, 'result-shell');

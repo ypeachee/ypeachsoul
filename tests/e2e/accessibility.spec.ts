@@ -14,6 +14,15 @@ async function completeQuizWithKeyboard(page: import('@playwright/test').Page): 
   }
 }
 
+async function completeQuiz(page: import('@playwright/test').Page): Promise<void> {
+  await page.goto('/');
+  await page.getByRole('button', { name: '开始研究' }).click();
+  for (let i = 1; i <= questions.length; i += 1) {
+    await page.getByRole('radio').first().check();
+    await page.getByRole('button', { name: i === questions.length ? '查看研究结论' : '下一题' }).click();
+  }
+}
+
 test('keyboard completes the quiz and focus moves to new headings', async ({ page }) => {
   await page.goto('/');
   await page.getByRole('button', { name: '开始研究' }).focus();
@@ -28,15 +37,27 @@ test('keyboard completes the quiz and focus moves to new headings', async ({ pag
 });
 
 test('critical accessibility scan is clean on the intro and result screens', async ({ page }) => {
+  test.setTimeout(60_000);
   await page.goto('/');
   const intro = await new AxeBuilder({ page }).analyze();
   expect(intro.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
-  await completeQuizWithKeyboard(page);
+  await completeQuiz(page);
   const result = await new AxeBuilder({ page }).analyze();
   expect(result.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
   await page.getByRole('button', { name: '打开六镜附录' }).click();
   const lenses = await new AxeBuilder({ page }).analyze();
   expect(lenses.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
+
+  await page.getByRole('button', { name: '塔罗', exact: true }).click();
+  await page.getByRole('link', { name: /开始 78 牌三牌实验/ }).click();
+  const tarot = await new AxeBuilder({ page }).analyze();
+  expect(tarot.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
+
+  await page.getByRole('button', { name: '← 返回六镜' }).click();
+  await page.getByRole('button', { name: '八字', exact: true }).click();
+  await page.getByRole('link', { name: /输入出生信息，开始排盘/ }).click();
+  const bazi = await new AxeBuilder({ page }).analyze();
+  expect(bazi.violations.filter((violation) => ['critical', 'serious'].includes(violation.impact ?? ''))).toEqual([]);
 });
 
 test('375px layout has no horizontal overflow and touch targets are large enough', async ({ page }) => {

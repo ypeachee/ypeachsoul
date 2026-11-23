@@ -17,7 +17,7 @@ test('navigates and expands the six-lens appendix', async ({ page }) => {
   await page.getByRole('button', { name: '打开六镜附录' }).click();
 
   await expect(page.getByRole('heading', { name: '六镜附录' })).toBeVisible();
-  await expect(page.getByText('APPENDIX A · SIX INTERPRETIVE LENSES · V3.1')).toBeVisible();
+  await expect(page.getByText('APPENDIX A · SIX INTERPRETIVE LENSES · V4.0')).toBeVisible();
   await expect(page.locator('[data-lens-id]')).toHaveCount(6);
   await expect(page.locator('[data-lens-target]')).toHaveCount(6);
   await expect(page.locator('details[data-lens-id][open]')).toHaveCount(0);

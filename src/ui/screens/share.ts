@@ -7,7 +7,7 @@ import { copyText, downloadCanvas } from '../../share/download';
 import { createShareQrDataUrl } from '../../share/qr';
 import { buildShareText } from '../../share/text';
 import { buildShareUrl } from '../../share/url';
-import { PRODUCT_NAME } from '../../product';
+import { PRODUCT_NAME, PRODUCT_VERSION_LABEL } from '../../product';
 import { announce, focusHeading } from '../a11y';
 import { escapeHtml, screenShell, storageBanner } from '../components';
 
@@ -36,7 +36,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
     ${storageBanner(session)}
     <section class="share-card-layout" aria-labelledby="share-title">
       <header class="share-copy">
-        <p class="eyebrow">READY TO SHARE · SIX-LENS V3.1</p>
+        <p class="eyebrow">READY TO SHARE · SIX-LENS ${PRODUCT_VERSION_LABEL}</p>
         <h1 id="share-title" tabindex="-1">分享卡</h1>
         <p class="lede">保存为竖版图片，或复制文字发给你想分享的人。</p>
       </header>
@@ -50,7 +50,7 @@ export function renderShare(root: HTMLElement, session: Session, actions: ShareA
         <button class="text-button" id="close-share" type="button">关闭预览</button>
       </div>
       <p class="share-status" id="share-status" role="status" aria-live="polite">正在生成分享卡…</p>
-      <p class="global-disclaimer">娱乐性自我报告，不构成心理/医疗诊断</p>
+      <p class="global-disclaimer">娱乐性自我报告，不构成心理/医疗诊断、命理预测或现实决策依据</p>
     </section>
   `;
 
