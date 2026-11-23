@@ -627,3 +627,171 @@ h1:focus { outline: none; }
   .pillar-grid { grid-template-columns: 1fr; }
   .tool-hero h1 { font-size: clamp(37px, 12vw, 52px); }
 }
+/* V4.1: Jungian functions and career positioning */
+.jungian-panel,
+.career-panel {
+  margin-top: 22px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(242, 237, 223, 0.028);
+}
+.jungian-panel h2,
+.career-panel h2 {
+  margin: 8px 0 0;
+  font-family: "Songti SC", "STSong", serif;
+  font-size: clamp(30px, 4vw, 42px);
+}
+.jungian-intro {
+  max-width: 54em;
+  margin: 14px 0 20px;
+  color: var(--paper-muted);
+  line-height: 1.7;
+}
+.function-pair-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+.function-group {
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(8, 12, 10, 0.18);
+}
+.function-group-label {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--accent-soft);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.function-row {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr) 40px;
+  gap: 8px 10px;
+  align-items: start;
+  padding: 11px 0;
+  border-top: 1px solid rgba(242, 237, 223, 0.08);
+}
+.function-row:first-of-type { border-top: 0; }
+.function-code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--paper-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+.function-copy { display: grid; gap: 3px; min-width: 0; }
+.function-copy strong { color: var(--paper); font-size: 13px; }
+.function-copy span { color: var(--paper-muted); font-size: 11px; line-height: 1.5; }
+.function-score { display: grid; justify-items: end; gap: 2px; font-variant-numeric: tabular-nums; }
+.function-score strong { color: var(--paper); font-size: 13px; }
+.function-score span { color: var(--paper-muted); font-size: 10px; }
+.function-track {
+  grid-column: 2 / -1;
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(242, 237, 223, 0.08);
+}
+.function-track i { display: block; height: 100%; border-radius: inherit; background: var(--paper-muted); }
+.function-row.is-primary .function-code,
+.function-row.is-primary .function-copy strong { color: var(--accent-soft); }
+.function-row.is-primary .function-code { border-color: color-mix(in srgb, var(--accent) 58%, var(--line)); }
+.function-row.is-primary .function-track i { background: var(--accent); }
+.function-row.is-auxiliary .function-track i { background: color-mix(in srgb, var(--accent) 58%, var(--paper-muted)); }
+.function-stack {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.function-stack > div {
+  padding: 15px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(8, 12, 10, 0.16);
+}
+.function-stack span,
+.career-positioning-label,
+.career-experiment span {
+  color: var(--accent-soft);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+.function-stack strong { display: block; margin-top: 8px; color: var(--paper); font-size: 14px; }
+.function-stack p { margin: 6px 0 0; color: var(--paper-muted); font-size: 11px; line-height: 1.55; }
+.function-stack .is-blind { border-color: rgba(242, 237, 223, 0.1); opacity: 0.82; }
+
+.career-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+}
+.career-function-badge {
+  flex: 0 0 auto;
+  padding: 7px 11px;
+  border: 1px solid color-mix(in srgb, var(--accent) 48%, var(--line));
+  border-radius: 999px;
+  color: var(--accent-soft);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+.career-positioning {
+  padding: 22px;
+  border: 1px solid color-mix(in srgb, var(--accent) 36%, var(--line));
+  border-radius: 18px;
+  background: linear-gradient(150deg, color-mix(in srgb, var(--accent) 13%, transparent), rgba(242, 237, 223, 0.025));
+}
+.career-positioning h3 {
+  margin: 9px 0 10px;
+  color: var(--paper);
+  font-family: "Songti SC", "STSong", serif;
+  font-size: clamp(28px, 4vw, 38px);
+}
+.career-positioning > p { margin: 0; color: var(--paper); line-height: 1.7; }
+.career-positioning dl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 20px 0 0;
+}
+.career-positioning dl > div { padding-top: 12px; border-top: 1px solid var(--line); }
+.career-positioning dt { color: var(--accent-soft); font-size: 10px; letter-spacing: 0.08em; }
+.career-positioning dd { margin: 7px 0 0; color: var(--paper-muted); font-size: 12px; line-height: 1.65; }
+.career-direction-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.career-direction-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: rgba(8, 12, 10, 0.18);
+}
+.career-index { color: var(--accent-soft); font-size: 10px; letter-spacing: 0.1em; }
+.career-direction-card h3 { margin: 10px 0 8px; color: var(--paper); font-family: "Songti SC", "STSong", serif; font-size: 24px; }
+.career-direction-card p { margin: 0; color: var(--paper-muted); font-size: 12px; line-height: 1.65; }
+.career-direction-card ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; padding: 0; list-style: none; }
+.career-direction-card li { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--paper); font-size: 10px; }
+.career-experiment { margin-top: 14px; padding: 18px; border: 1px dashed var(--line); border-radius: 16px; }
+.career-experiment p { margin: 8px 0 0; color: var(--paper); line-height: 1.65; }
+.career-boundary { margin: 14px 0 0; color: var(--paper-muted); font-size: 11px; line-height: 1.65; }
+@media (max-width: 760px) {
+  .function-pair-grid { grid-template-columns: 1fr; }
+  .function-stack,
+  .career-positioning dl,
+  .career-direction-grid { grid-template-columns: 1fr; }
+  .career-heading { flex-direction: column; }
+  .jungian-panel,
+  .career-panel { padding: 18px 14px; }
+}

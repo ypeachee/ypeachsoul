@@ -93,7 +93,7 @@ export async function renderShareCard(
 
   context.fillStyle = '#ffd9cb';
   context.font = '500 26px "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif';
-  context.fillText('A SINGLE-CASE STUDY OF YOU · V4.0', 110, 150);
+  context.fillText('A SINGLE-CASE STUDY OF YOU · V4.1', 110, 150);
 
   context.fillStyle = '#f2eddf';
   context.font = '700 118px "Songti SC", "STSong", serif';

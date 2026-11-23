@@ -20,9 +20,12 @@ async function completeQuiz(page: import('@playwright/test').Page): Promise<numb
 test('result contains every required section and disclaimer', async ({ page }) => {
   const transitionMs = await completeQuiz(page);
   expect(transitionMs).toBeLessThan(800);
-  for (const heading of ['研究结论', '证据分布', '主要证据', '反例与盲点', '关系场景', '工作场景', '下一步观察', '研究局限']) {
+  for (const heading of ['研究结论', '证据分布', '荣格八维倾向', '职业方向与职场定位', '主要证据', '反例与盲点', '关系场景', '工作场景', '下一步观察', '研究局限']) {
     await expect(page.getByRole('heading', { name: heading })).toBeVisible();
   }
+  await expect(page.getByText('主功能', { exact: true })).toBeVisible();
+  await expect(page.getByText('辅助功能', { exact: true })).toBeVisible();
+  await expect(page.getByText('压力盲区', { exact: true })).toBeVisible();
   await expect(page.getByText('娱乐性自我报告，不构成心理/医疗诊断、命理预测或现实决策依据')).toBeVisible();
 });
 

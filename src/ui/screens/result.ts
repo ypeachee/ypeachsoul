@@ -1,5 +1,6 @@
 import { trackEvent } from '../../analytics/events';
 import { getArchetype } from '../../domain/scoring';
+import { buildJungianCareerProfile } from '../../knowledge/jungian-career';
 import { ARCHETYPE_IDS, type ArchetypeId } from '../../domain/types';
 import { METHOD_FRAMEWORK, PRODUCT_NAME, PRODUCT_VERSION_LABEL } from '../../product';
 import type { Session } from '../../state/session';
@@ -51,6 +52,33 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
     `;
   }).join('');
 
+  const jungian = buildJungianCareerProfile(result);
+  const functionGroups = ['直觉', '思考', '情感', '感觉'].map((group) => {
+    const rows = jungian.functions.filter((item) => item.group === group).map((item) => `
+      <div class="function-row ${item.rank === 1 ? 'is-primary' : item.rank === 2 ? 'is-auxiliary' : ''}">
+        <span class="function-code">${escapeHtml(item.id)}</span>
+        <div class="function-copy">
+          <strong>${escapeHtml(item.name)}</strong>
+          <span>${escapeHtml(item.short)}</span>
+        </div>
+        <div class="function-score">
+          <strong>${item.score}</strong>
+          <span>${item.percentage.toFixed(0)}%</span>
+        </div>
+        <div class="function-track" aria-hidden="true"><i style="width:${Math.max(5, Math.round(item.percentage))}%"></i></div>
+      </div>
+    `).join('');
+    return `<section class="function-group" aria-label="${escapeHtml(group)}功能对"><span class="function-group-label">${escapeHtml(group)}</span>${rows}</section>`;
+  }).join('');
+  const careerCards = jungian.careerDirections.map((direction, index) => `
+    <article class="career-direction-card">
+      <span class="career-index">0${index + 1}</span>
+      <h3>${escapeHtml(direction.title)}</h3>
+      <p>${escapeHtml(direction.why)}</p>
+      <ul>${direction.roles.map((role) => `<li>${escapeHtml(role)}</li>`).join('')}</ul>
+    </article>
+  `).join('');
+
   const content = `
     ${storageBanner(session)}
     <article class="result-card research-report" style="--archetype-accent:${escapeHtml(archetype.accent)}">
@@ -75,6 +103,61 @@ export function renderResult(root: HTMLElement, session: Session, actions: Resul
           <span class="sample-badge">n=1</span>
         </div>
         <div class="evidence-list">${evidenceRows}</div>
+      </section>
+
+      <section class="jungian-panel" aria-labelledby="jungian-title">
+        <div class="section-heading-row">
+          <div>
+            <p class="eyebrow">JUNGIAN FUNCTIONS · CAREER LENS</p>
+            <h2 id="jungian-title">荣格八维倾向</h2>
+          </div>
+          <span class="sample-badge">8 FUNCTIONS</span>
+        </div>
+        <p class="jungian-intro">把现有 8 个原型的答案映射成四组认知功能。它描述你此刻更常用的处理方式，不是正式 MBTI 类型或能力判断。</p>
+        <div class="function-pair-grid">${functionGroups}</div>
+        <div class="function-stack">
+          <div>
+            <span>主功能</span>
+            <strong>${escapeHtml(jungian.primary.id)} · ${escapeHtml(jungian.primary.name)}</strong>
+            <p>${escapeHtml(jungian.primary.short)}</p>
+          </div>
+          <div>
+            <span>辅助功能</span>
+            <strong>${escapeHtml(jungian.auxiliary.id)} · ${escapeHtml(jungian.auxiliary.name)}</strong>
+            <p>${escapeHtml(jungian.auxiliary.short)}</p>
+          </div>
+          <div class="is-blind">
+            <span>压力盲区</span>
+            <strong>${escapeHtml(jungian.blind.id)} · ${escapeHtml(jungian.blind.name)}</strong>
+            <p>${escapeHtml(jungian.blind.short)}</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="career-panel" aria-labelledby="career-title">
+        <div class="career-heading">
+          <div>
+            <p class="eyebrow">WORK POSITIONING</p>
+            <h2 id="career-title">职业方向与职场定位</h2>
+          </div>
+          <span class="career-function-badge">${escapeHtml(jungian.primary.id)} × ${escapeHtml(jungian.auxiliary.id)}</span>
+        </div>
+        <div class="career-positioning">
+          <span class="career-positioning-label">更适合的定位</span>
+          <h3>${escapeHtml(jungian.positioning.title)}</h3>
+          <p>${escapeHtml(jungian.positioning.summary)}</p>
+          <dl>
+            <div><dt>团队价值</dt><dd>${escapeHtml(jungian.positioning.teamValue)}</dd></div>
+            <div><dt>环境匹配</dt><dd>${escapeHtml(jungian.positioning.fitEnvironment)}</dd></div>
+            <div><dt>需要留意</dt><dd>${escapeHtml(jungian.positioning.watchout)}</dd></div>
+          </dl>
+        </div>
+        <div class="career-direction-grid">${careerCards}</div>
+        <div class="career-experiment">
+          <span>7 天验证实验</span>
+          <p>${escapeHtml(jungian.experiment)}</p>
+        </div>
+        <p class="career-boundary">${escapeHtml(jungian.boundary)}</p>
       </section>
 
       <div class="result-grid">
